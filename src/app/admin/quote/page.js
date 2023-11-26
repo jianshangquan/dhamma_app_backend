@@ -1,6 +1,6 @@
 export default function Quote(){
     return (
-        <div>
+        <div className="w-full h-full">
             fdsa
         </div>
     )
