@@ -12,7 +12,7 @@ export async function GET(request, { param }){
     const { skip, limit = 10 } = Utils.searchParams(request.url);
 
     return JsonResponse.success({ 
-        data: [ new PlayList.audio() ]
+        data: [ new PlayList.video() ]
     }).build();
 }
 

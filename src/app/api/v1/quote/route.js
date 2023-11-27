@@ -2,6 +2,7 @@
 
 
 import JsonResponse from '@/model/json-response';
+import Quote from '@/model/quote-model';
 import Utils from '@/utils/Utils';
 import { NextResponse } from 'next/server';
 import RandomQuote from 'random-quotes';
@@ -21,15 +22,7 @@ export async function GET(request, { params }) {
 function generateRandomQuotes(count) {
     const quotes = [];
     for(let i = 0; i < count; i++){
-        const rand = RandomQuote();
-        const quote = {
-            id: shortid(),
-            createdDate: new Date(),
-            quote: rand.body,
-            author: {
-                name: rand.author
-            }
-        }
+        const quote = new Quote()
         quotes.push(quote)
     }
     return quotes
