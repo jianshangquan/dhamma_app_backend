@@ -9,7 +9,7 @@ import shortid from "shortid";
 
 export async function GET(request, { param }){
 
-    const { skip, limit } = Utils.searchParams(request.url);
+    const { skip, limit = 10 } = Utils.searchParams(request.url);
 
     return JsonResponse.success({ 
         data: [
