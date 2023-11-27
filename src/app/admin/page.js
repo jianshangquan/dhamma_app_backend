@@ -12,7 +12,7 @@ export default function Admin() {
     return (
         <div className="w-full h-full">
             <div>
-                Admin home
+                <div className="font-bold text-[1.5rem]">Admin Home</div>
             </div>
         </div>
     )
