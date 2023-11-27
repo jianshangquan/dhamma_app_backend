@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function Admin() {
     return (
-        <div className="w-full h-full p-3">
+        <div className="w-full h-full">
             <div>
                 Dhamma
             </div>

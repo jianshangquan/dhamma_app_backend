@@ -17,7 +17,7 @@ export default function Layout({ children }) {
     return (
         <div className="flex w-full h-full relative ">
             <div className="w-[18%] min-w-[15rem]"><SideMenu /></div>
-            <div className="w-full p-5">{children}</div>
+            <div className="w-full p-10">{children}</div>
         </div>
     )
 }
