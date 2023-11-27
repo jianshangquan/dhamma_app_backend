@@ -12,7 +12,7 @@ export default function Admin() {
     return (
         <div className="w-full h-full">
             <div>
-                Dhamma
+                Admin home
             </div>
         </div>
     )

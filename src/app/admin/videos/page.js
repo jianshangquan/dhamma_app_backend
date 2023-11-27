@@ -4,10 +4,10 @@ export const metadata = {
 }
 
 
-export default function Quote(){
+export default function Videos(){
     return (
         <div className="w-full h-full">
-            Quotes
+            Videos
         </div>
     )
 }

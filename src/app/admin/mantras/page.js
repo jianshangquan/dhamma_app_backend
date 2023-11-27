@@ -4,10 +4,10 @@ export const metadata = {
 }
 
 
-export default function Quote(){
+export default function Audios(){
     return (
         <div className="w-full h-full">
-            Quotes
+            Mantras
         </div>
     )
 }

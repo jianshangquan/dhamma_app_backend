@@ -9,6 +9,18 @@ const Menus = [
     {
         path: '/admin/quote',
         label: 'Daily quote'
+    },
+    {
+        path: '/admin/videos',
+        label: 'Videos'
+    },
+    {
+        path: '/admin/audios',
+        label: 'Audios'
+    },
+    {
+        path: '/admin/mantras',
+        label: 'Mantras'
     }
 ]
 
