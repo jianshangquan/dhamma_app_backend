@@ -12,9 +12,8 @@ export async function GET(request, { param }){
 
     const { skip, limit = 10 } = Utils.searchParams(request.url);
 
-    return JsonResponse.success({ 
-        data: [ new Audio() ]
-    }).build();
+    const data = await Audio.find();
+    return JsonResponse.success({  data: data }).build();
 }
 
 

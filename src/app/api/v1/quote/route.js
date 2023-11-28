@@ -12,8 +12,9 @@ export async function GET(request, { params }) {
 
     const { skip, limit } = Utils.searchParams(request.url);
 
+    const data = await Quote.find();
     return JsonResponse.success({
-        data: generateRandomQuotes(3)
+        data:data
     }).build()
 }
 

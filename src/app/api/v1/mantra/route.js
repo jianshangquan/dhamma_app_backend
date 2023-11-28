@@ -16,7 +16,6 @@ export async function GET(request, { param }){
     //     data: [ new Mantra() ]
     // }).build();
 
-    const data = await Mantra.updateById('iCCrfr7ynJSkfIQqDYeR', { ...new Mantra(), coverUrl: 'test2' })
     return JsonResponse.success({ data: {} }).build();
 }
 

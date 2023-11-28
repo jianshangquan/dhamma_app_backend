@@ -12,7 +12,7 @@ export async function GET(request, { param }){
 
     const { skip, limit } = Utils.searchParams(request.url);
 
-    return JsonResponse.success({ 
-        data: [ new Video() ]
-    }).build();
+
+    const data = await Video.find();
+    return JsonResponse.success({ data: data }).build();
 }

@@ -1,5 +1,6 @@
 
 import { firestore } from "@/db/firebase"
+import Utils from "@/utils/Utils";
 import { collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAt } from "firebase/firestore"
 import shortid from "shortid"
 
@@ -58,6 +59,16 @@ Mantra.find = async function ({ skip = 0, limit: lmt = 10 } = {}) {
 }
 
 
+Mantra.findById = async function (id) {
+    const mantraRef = collection(firestore, COLLECTION_NAME);
+    const mantraDoc = doc(mantraRef, id)
+    const snapshot = await getDoc(mantraDoc);
+    if(snapshot.exists()){
+        return snapshot.data()
+    }
+    throw new Error('Mantra not found');
+}
+
 
 
 Mantra.save = async function ({ data = new Mantra() } = {}) {
@@ -72,7 +83,8 @@ Mantra.save = async function ({ data = new Mantra() } = {}) {
 Mantra.updateById = async function (id, { title, subtitle, mantra, defination, coverUrl, createdDate }) {
     const mantraCollection = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraCollection, id)
-    await setDoc(mantraDoc, { id: mantraDoc.id, title, subtitle, mantra, defination, coverUrl, createdDate }, { merge: true })
+    const updateData = Utils.removeUndefineProperty({ title, subtitle, mantra, defination, coverUrl, createdDate })
+    await setDoc(mantraDoc, { id: mantraDoc.id, ...updateData }, { merge: true })
 }
 
 
