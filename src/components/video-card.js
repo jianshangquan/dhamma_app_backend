@@ -2,7 +2,7 @@
 import { ArrowRight, PlayOne } from '@icon-park/react';
 import moment from 'moment';
 
-export default function VideoCard({ onClick }) {
+export default function VideoCard({ onClick, video }) {
 
 
     const onPlay = (event) => {
@@ -16,21 +16,17 @@ export default function VideoCard({ onClick }) {
             <video className='bg-gray-200 rounded-md'></video>
             <div className='flex flex-col'>
                 <div className="flex flex-col">
-                    <div className="">Mantra title</div>
-                    <div className="text-[0.8rem]">Sub title</div>
+                    <div className="">{video.title}</div>
+                    <div className="text-[0.8rem]">{video.subtitle}</div>
                 </div>
-                <div className=" font-extralight text-[0.8rem]">
-                    You'd think a sociopath assassin wouldn't have a fan following but he does.
-                    All the tools and engines on earth are only extensions of man's limbs and senses.
-                    The most beautiful fig may contain a worm.
-                </div>
+                <div className=" font-extralight text-[0.8rem]">{video.mantra}</div>
             </div>
             <div className='flex justify-between items-center w-full'>
                 <div className="flex flex-col gap-2 min-w-[40%]">
                     <div className="flex flex-col text-[0.75rem] opacity-60">
                         <div>{'ဆရာတော် : '}</div>
-                        <div>{'Created date : '}{moment(new Date()).format('YYYY-DD-MM hh:mm A')}</div>
-                        <div>{'Duration : '}{moment(new Date()).format('hh:mm')}</div>
+                        <div>{'Created date : '}{moment(video.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
+                        <div>{'Duration : '}{moment(video.createdDate).format('hh:mm')}</div>
                     </div>
                 </div>
                 <ArrowRight theme="outline" size="21" strokeWidth={3} className='group-hover:translate-x-[0%] group-hover:opacity-100 opacity-0 transition-all translate-x-[-50%]' />

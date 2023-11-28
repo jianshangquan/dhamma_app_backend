@@ -16,7 +16,8 @@ export async function GET(request, { param }){
     //     data: [ new Mantra() ]
     // }).build();
 
-    return JsonResponse.success({ data: {} }).build();
+    const mantras = await Mantra.find();
+    return JsonResponse.success({ data: mantras }).build();
 }
 
 

@@ -2,45 +2,17 @@
 
 import { useState } from "react"
 
-export default function QuoteForm() {
-
-    const [audio, setAudio] = useState({
-        id: null,
-        title: '',
-        description: '',
-        mantra: '',
-        description: '',
-        url: '',
-        coverUrl: '',
-        thumbnail: '',
-        createdDate: new Date()
-    })
+export default function QuoteForm({ quote, setQuote }) {
 
     return (
         <div className="w-full h-full flex flex-col gap-2">
             <div className="flex flex-col gap-1">
-                <span className="capitalize">Title</span>
-                <input type="text" className="bg-gray-100 rounded-md p-2" />
+                <span className="capitalize">Quote</span>
+                <textarea type="text" className="bg-gray-100 min-h-[10rem] rounded-md p-2" value={quote.quote} onChange={({target}) => setQuote(q => ({...q, quote: target.value}))}/>
             </div>
             <div className="flex flex-col gap-1">
-                <span className="capitalize">Description</span>
-                <textarea type="text" className="bg-gray-100 rounded-md p-2" />
-            </div>
-            <div className="flex flex-col gap-1">
-                <span className="capitalize">Mantra</span>
-                <textarea type="text" className="bg-gray-100 rounded-md p-2 min-h-[10rem]" />
-            </div>
-            <div className="flex flex-col gap-1">
-                <span className="capitalize">Mantra Defination</span>
-                <textarea type="text" className="bg-gray-100 rounded-md p-2 min-h-[20rem]" />
-            </div>
-            <div className="flex flex-col gap-1">
-                <span className="capitalize">Audio</span>
-                <input type="file" className="bg-gray-100 rounded-md p-2" />
-            </div>
-            <div className="flex flex-col gap-1">
-                <span className="capitalize">Image cover</span>
-                <input type="file" className="bg-gray-100 rounded-md p-2" />
+                <span className="capitalize">Author</span>
+                <input type="text" className="bg-gray-100 rounded-md p-2" value={quote.author.name} onChange={({target}) => setQuote(q => ({...q, author: {name: target.value }}))}/>
             </div>
         </div>
     )

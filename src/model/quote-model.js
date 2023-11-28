@@ -40,11 +40,6 @@ export default function Quote({
 
 
 
-
-
-
-
-
 Quote.find = async function ({ skip = 0, limit: lmt = 10 } = {}) {
     const mantraRef = collection(firestore, COLLECTION_NAME);
     const q = query(mantraRef, orderBy('createdDate'), startAt(skip), limit(lmt))
@@ -54,7 +49,6 @@ Quote.find = async function ({ skip = 0, limit: lmt = 10 } = {}) {
         return {
             id: doc.id,
             ...d,
-            createdDate: d.createdDate.toDate()
         }
     });
     return data;
@@ -73,11 +67,12 @@ Quote.findById = async function (id) {
 
 
 
-Quote.save = async function ({ data = new Quote() } = {}) {
+Quote.save = async function (data = new Quote()) {
     const { createdDate, quote, author } = data;
     const mantraCollection = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraCollection)
     await setDoc(mantraDoc, { id: mantraDoc.id, createdDate, quote, author })
+    return { id: mantraDoc.id, createdDate, quote, author };
 }
 
 

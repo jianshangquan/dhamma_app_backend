@@ -2,7 +2,7 @@
 import { ArrowRight, PlayOne } from '@icon-park/react';
 import moment from 'moment';
 
-export default function AudioCard({ onClick }) {
+export default function AudioCard({ audio, onClick }) {
 
 
     const onPlay = (event) => {
@@ -17,21 +17,19 @@ export default function AudioCard({ onClick }) {
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
-                    <div className="">Mantra title</div>
-                    <div className="text-[0.8rem]">Sub title</div>
+                    <div className="">{audio.title}</div>
+                    <div className="text-[0.8rem]">{audio.subtitle}</div>
                 </div>
                 <div className=" font-extralight text-[0.8rem]">
-                    You'd think a sociopath assassin wouldn't have a fan following but he does.
-                    All the tools and engines on earth are only extensions of man's limbs and senses.
-                    The most beautiful fig may contain a worm.
+                    {audio.mantra}
                 </div>
 
                 <div className="flex flex-col text-[0.75rem] opacity-60">
                     <div>{'ဆရာတော် : '}</div>
-                    <div>{'Created date : '}{moment(new Date()).format('YYYY-DD-MM hh:mm A')}</div>
-                    <div>{'Duration : '}{moment(new Date()).format('hh:mm')}</div>
+                    <div>{'Created date : '}{moment(audio.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
+                    <div>{'Duration : '}{moment(audio.createdDate).format('hh:mm')}</div>
                 </div>
-                <audio controls className='bg-gray-200 rounded-full shadow-md'></audio>
+                <audio controls className='bg-gray-200 rounded-full shadow-md' src={audio.src}></audio>
 
             </div>
             <div className='flex flex-col justify-between h-full'>
