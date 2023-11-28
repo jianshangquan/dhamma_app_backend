@@ -22,7 +22,7 @@ const JsonResponse = {
             data: tempData
         }
     },
-    success({ code = 200, message = null, detailMessage = null, data = {} }) {
+    success({ code = 200, message = null, detailMessage = null, data = {} } = {}) {
         const tempData = {
             "succeed": true,
             "status": "success",
