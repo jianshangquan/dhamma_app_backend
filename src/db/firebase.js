@@ -1,14 +1,23 @@
 import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "AIzaSyDTdNytxuHP372xT_qT4AynntfvLfRtP1M",
+  authDomain: "phyosweet-dhamma-app.firebaseapp.com",
+  projectId: "phyosweet-dhamma-app",
+  storageBucket: "phyosweet-dhamma-app.appspot.com",
+  messagingSenderId: "755637540882",
+  appId: "1:755637540882:web:916d69c398c5ca1b40e0cb",
+  measurementId: "G-TXV3JGDEGE"
 };
 
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+const firebaseapp = initializeApp(firebaseConfig);
+const firestore = getFirestore(firebaseapp);
+// const analytics = getAnalytics(firebaseapp);
 
-export default app;
+export default firebaseapp;
+
+
+export { firestore }

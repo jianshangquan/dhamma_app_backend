@@ -1,3 +1,5 @@
+import shortid from "shortid";
+
 export default function Video({
     id= shortid(),
     title= 'သမ္ဗုဒ္ဓေ',

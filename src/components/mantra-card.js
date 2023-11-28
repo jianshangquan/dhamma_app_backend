@@ -2,7 +2,7 @@
 import { ArrowRight } from '@icon-park/react';
 import moment from 'moment';
 
-export default function MantraCard({ onClick }) {
+export default function MantraCard({ onClick, mantra }) {
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
             <div className="w-[35%] aspect-square bg-gray-200 rounded-md">
@@ -10,18 +10,16 @@ export default function MantraCard({ onClick }) {
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
-                    <div className="">Mantra title</div>
-                    <div className="text-[0.8rem]">Sub title</div>
+                    <div className="">{mantra.title}</div>
+                    <div className="text-[0.8rem]">{mantra.subtitle}</div>
                 </div>
-                <div className=" font-extralight text-[0.8rem]">
-                    You'd think a sociopath assassin wouldn't have a fan following but he does.
-                    All the tools and engines on earth are only extensions of man's limbs and senses.
-                    The most beautiful fig may contain a worm.
+                <div className=" font-extralight text-[0.8rem] text-ellipsis overflow-hidden w-full">
+                    {mantra.mantra}
                 </div>
 
                 <div className="flex flex-col text-[0.75rem] opacity-60">
                     <div>{'ဆရာတော် : '}</div>
-                    <div>{'Created date : '}{moment(new Date()).format('YYYY-DD-MM hh:mm A')}</div>
+                    <div>{'Created date : '}{moment(mantra.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
                 </div>
             </div>
             <ArrowRight theme="outline" size="21" strokeWidth={3} className='group-hover:translate-x-[0%] group-hover:opacity-100 opacity-0 transition-all translate-x-[-50%]' />
