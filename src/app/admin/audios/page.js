@@ -2,6 +2,8 @@
 
 import AudioCard from "@/components/audio-card";
 import QuoteForm from "@/components/quote-form";
+import UniversalForm, { FormType } from "@/components/universal-form";
+import Utils from "@/utils/Utils";
 import moment from "moment";
 import { useState, useRef, useEffect } from "react";
 
@@ -17,6 +19,17 @@ export default function Quotes() {
     const pageRef = useRef();
     const [audios, setAudios] = useState([]);
     const [selectedAudio, setSelectedAudio] = useState(null);
+    const [audio, setAudio] = useState({
+        id: null,
+        title: '',
+        description: '',
+        mantra: '',
+        description: '',
+        url: '',
+        coverUrl: '',
+        thumbnail: '',
+        createdDate: new Date()
+    })
 
     useEffect(() => {
         fetch('/api/v1/audio').then(res => res.json()).then(res => {
@@ -25,16 +38,30 @@ export default function Quotes() {
         });
     }, [])
 
+
+    useEffect(() => {
+        // Utils.uploadFile({ tag: 'audio', data: audio }).then(res => {
+        //     console.log(res)
+        // })
+    }, [audio])
+
+
+    const onSave = () => {
+        Utils.uploadFile({ tag: 'audio', data: audio }).then(res => {
+            console.log(res)
+        })
+    }
+
     return (
         <div className="w-full h-full flex flex-col">
             <div className="font-bold text-[1.5rem]">Audios</div>
             <div className="w-full h-full flex gap-10 overflow-hidden">
                 <div className="w-full h-full flex flex-col overflow-hidden">
                     <div className="w-full h-full overflow-y-auto">
-                        {/* <QuoteForm/> */}
+                        <UniversalForm type={FormType.Audio} formData={audio} setFormData={setAudio}/>
                     </div>
                     <div className="py-2 flex justify-end">
-                        <button className="bg-gray-100 px-3 py-2 rounded-md">Save</button>
+                        <button className="bg-gray-100 px-3 py-2 rounded-md" onClick={onSave}>Save</button>
                     </div>
                 </div>
                 <div className="w-full h-full flex flex-col gap-2">

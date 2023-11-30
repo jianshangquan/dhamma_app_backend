@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 const JsonResponse = {
     error({ code, message, detailMessage, details = [] }) {
         const tempData = {
-            "succeed": false,
+            "success": false,
             "status": "fail",
             "code": code,
             "error": {
@@ -24,7 +24,7 @@ const JsonResponse = {
     },
     success({ code = 200, message = null, detailMessage = null, data = {} } = {}) {
         const tempData = {
-            "succeed": true,
+            "success": true,
             "status": "success",
             "code": code,
             "error": null,
