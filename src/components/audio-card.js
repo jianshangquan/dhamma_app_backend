@@ -1,6 +1,7 @@
 'use client'
 import { ArrowRight, PlayOne } from '@icon-park/react';
 import moment from 'moment';
+import Image from 'next/image';
 
 export default function AudioCard({ audio, onClick }) {
 
@@ -12,8 +13,8 @@ export default function AudioCard({ audio, onClick }) {
 
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
-            <div className="w-[35%] aspect-square bg-gray-200 rounded-md">
-
+            <div className="w-[35%] aspect-square bg-gray-200 rounded-md relative overflow-hidden group-hover:shadow-xl transition-all">
+                <Image src={`/api/v1/file/${audio.url}`} fill={true} objectFit='cover'/>
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">

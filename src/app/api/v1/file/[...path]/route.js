@@ -4,7 +4,7 @@ import path from 'path';
 
 export async function GET(request, { params }){
     const { path } = params;
-    const file = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/${path.join('/')}`;
+    const file = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/public/${path.join('/')}`;
     const stream = fs.createReadStream(file);
     return new Response(stream);
 }

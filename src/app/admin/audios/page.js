@@ -53,8 +53,9 @@ export default function Quotes() {
                 prev[cur.name] = cur.file;
                 return prev;
             },{});
+            const { groupId, tag } = fileResponse.payload.data;
             Object.entries(files).map(([name, file]) => {
-                audio[name] = `${fileResponse.payload.data.tag}-${file}`;
+                audio[name] = `${tag}-${groupId}/${file}`;
             })
             console.log(audio);
 

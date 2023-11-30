@@ -33,25 +33,36 @@ export default function UniversalForm({ formData, setFormData, type = FormType.M
                 type != FormType.Mantra && (
                     <div className="flex flex-col gap-1">
                         <span className="capitalize">{type == FormType.Audio ? "Audio" : type == FormType.Video ? 'Video' : ''}</span>
-                        <input type="file" className="bg-gray-100 rounded-md p-2" onChange={({ target }) => setFormData(d => {
-                            const file = target.files[0];
-                            return {
-                                ...d,
-                                url: file
-                            }
-                        })} />
+                        <input type="file"
+                            accept={(() => {
+                                if (type == FormType.Audio)
+                                    return 'audio/*';
+                                if (type == FormType.Video)
+                                    return 'video/*'
+                            })()}
+                            className="bg-gray-100 rounded-md p-2"
+                            onChange={({ target }) => setFormData(d => {
+                                const file = target.files[0];
+                                return {
+                                    ...d,
+                                    url: file
+                                }
+                            })} />
                     </div>
                 )
             }
             <div className="flex flex-col gap-1">
                 <span className="capitalize">Image cover</span>
-                <input type="file" className="bg-gray-100 rounded-md p-2" onChange={({ target }) => setFormData(d => {
-                    const file = target.files[0];
-                    return {
-                        ...d, 
-                        coverUrl: file
-                    }
-                })} />
+                <input type="file"
+                    accept='image/*'
+                    className="bg-gray-100 rounded-md p-2"
+                    onChange={({ target }) => setFormData(d => {
+                        const file = target.files[0];
+                        return {
+                            ...d,
+                            coverUrl: file
+                        }
+                    })} />
             </div>
         </div>
     )

@@ -55,7 +55,7 @@ export async function POST(req, { params }) {
     const files = [];
     const searchParam = Utils.searchParams(req.url);
     const tag = parsePath(searchParam.tag, 'tag');
-    const groupid = parsePath(searchParam.groupId);
+    const groupId = parsePath(searchParam.groupId);
     await new Promise((resolve, reject) => {
         const bb = busboy({
             headers: {
@@ -67,7 +67,7 @@ export async function POST(req, { params }) {
             const id = shortid();
             const ext = path.extname(info.filename);
             const file = `${id}${ext}`;
-            const filepath = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/${tag.length == 0 ? shortid() : tag}-${groupid}`;
+            const filepath = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/public/${tag.length == 0 ? shortid() : tag}-${groupId}`;
             fs.mkdirSync(filepath, { recursive: true })
             const writeStream = fs.createWriteStream(path.resolve(`${filepath}/${file}`));
             files.push({ name, file })
@@ -85,7 +85,7 @@ export async function POST(req, { params }) {
 
     return JsonResponse.success({
         data: {
-            groupid,
+            groupId,
             tag,
             files
         }
