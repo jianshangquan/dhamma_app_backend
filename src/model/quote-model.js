@@ -1,6 +1,6 @@
 import { firestore } from "@/db/firebase"
 import Utils from "@/utils/Utils";
-import { collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAt } from "firebase/firestore"
+import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAt } from "firebase/firestore"
 import shortid from "shortid";
 import RandomQuote from 'random-quotes';
 
@@ -25,6 +25,7 @@ export default function Quote({
     return {
         id, 
         createdDate,
+        serverTime: new Date(),
         quote,
         author
     }
@@ -42,13 +43,14 @@ export default function Quote({
 
 Quote.find = async function ({ skip = 0, limit: lmt = 10 } = {}) {
     const mantraRef = collection(firestore, COLLECTION_NAME);
-    const q = query(mantraRef, orderBy('createdDate'), startAt(skip), limit(lmt))
+    const q = query(mantraRef, orderBy('serverTime', 'desc'), startAt(Timestamp.fromDate(new Date())), limit(lmt))
     const snapshot = await getDocs(q);
     const data = snapshot.docs.map((doc) => {
         const d = doc.data();
         return {
             id: doc.id,
             ...d,
+            createdDate: d.createdDate.toDate()
         }
     });
     return data;
@@ -71,8 +73,15 @@ Quote.save = async function (data = new Quote()) {
     const { createdDate, quote, author } = data;
     const mantraCollection = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraCollection)
-    await setDoc(mantraDoc, { id: mantraDoc.id, createdDate, quote, author })
-    return { id: mantraDoc.id, createdDate, quote, author };
+    const d = { 
+        id: mantraDoc.id, 
+        createdDate: Timestamp.fromDate(new Date(createdDate)), 
+        serverTime: serverTimestamp(),
+        quote, 
+        author 
+    };
+    await setDoc(mantraDoc, d)
+    return d;
 }
 
 

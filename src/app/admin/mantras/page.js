@@ -1,4 +1,4 @@
-'use client' 
+'use client'
 
 import UniversalForm, { FormType } from "@/components/universal-form";
 import Page, { ChildPage } from "@/components/common/Page";
@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft } from '@icon-park/react';
 import shortid from "shortid";
 import Mantra from "@/model/mantra-model";
+import Utils from "@/utils/Utils";
 
 // export const metadata = {
 //     title: 'Admin panel',
@@ -24,6 +25,16 @@ export default function Mantras() {
     const pageRef = useRef();
     const [mantras, setMantras] = useState([]);
     const [selectedMantra, setSelectedMantra] = useState(null);
+    const [mantra, setMantra] = useState({
+        id: null,
+        title: 'fdsafdas',
+        description: 'fdsfdasfsafdsfa',
+        mantra: 'cxvdscvcsvsddsfsd',
+        defination: 'fnkjsdahfkdsjafklds',
+        coverUrl: '',
+        thumbnail: '',
+        createdDate: new Date()
+    })
 
     useEffect(() => {
         fetch('/api/v1/mantra').then(res => res.json()).then(res => {
@@ -36,7 +47,34 @@ export default function Mantras() {
         console.log(selectedMantra)
         if (selectedMantra == null) pageRef.current.prev();
         else pageRef.current.next();
-    }, [selectedMantra])
+    }, [selectedMantra]);
+
+
+
+
+    const onSave = async () => {
+        const tag = 'mantra';
+        const fileResponse = await Utils.uploadFile({ tag, data: mantra }).then(res => res.json());
+        if (fileResponse.success) {
+            const files = fileResponse.payload.data.files.reduce((prev, cur) => {
+                prev[cur.name] = cur.file;
+                return prev;
+            }, {});
+            Object.entries(files).map(([name, file]) => {
+                mantra[name] = `${tag}-${file}`;
+            })
+
+            const response = await fetch('/api/v1/mantra', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify(mantra),
+            }).then(res => res.json());
+
+            console.log(fileResponse);
+            console.log(response);
+        }
+    }
+
 
     return (
         <div className="w-full h-full flex flex-col">
@@ -44,10 +82,10 @@ export default function Mantras() {
             <div className="w-full h-full flex gap-10 overflow-hidden">
                 <div className="w-full h-full flex flex-col overflow-hidden">
                     <div className="w-full h-full overflow-y-auto">
-                        <UniversalForm type={FormType.Mantra}/>
+                        <UniversalForm type={FormType.Mantra} setFormData={setMantra} formData={mantra} />
                     </div>
                     <div className="py-2 flex justify-end">
-                        <button className="bg-gray-100 px-3 py-2 rounded-md">Save</button>
+                        <button className="bg-gray-100 px-3 py-2 rounded-md" onClick={onSave}>Save</button>
                     </div>
                 </div>
                 <Page ref={pageRef} className="w-full h-full">
@@ -56,7 +94,7 @@ export default function Mantras() {
                         <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
                             {
                                 mantras.map((mantra, index) => {
-                                    return (<MantraCard key={index} onClick={() => setSelectedMantra(shortid())} mantra={mantra}/>)
+                                    return (<MantraCard key={index} onClick={() => setSelectedMantra(shortid())} mantra={mantra} />)
                                 })
                             }
                         </div>
@@ -75,6 +113,4 @@ export default function Mantras() {
         </div>
     )
 }
-
-
 

@@ -21,10 +21,10 @@ export default function Quotes() {
     const [selectedAudio, setSelectedAudio] = useState(null);
     const [audio, setAudio] = useState({
         id: null,
-        title: '',
-        description: '',
-        mantra: '',
-        description: '',
+        title: 'fdsafdas',
+        description: 'fdsfdasfsafdsfa',
+        mantra: 'cxvdscvcsvsddsfsd',
+        defination: 'fnkjsdahfkdsjafklds',
         url: '',
         coverUrl: '',
         thumbnail: '',
@@ -46,9 +46,40 @@ export default function Quotes() {
     }, [audio])
 
 
-    const onSave = () => {
-        Utils.uploadFile({ tag: 'audio', data: audio }).then(res => {
-            console.log(res)
+    const onSave = async () => {
+        const fileResponse = await Utils.uploadFile({ tag: 'audio', data: audio }).then(res => res.json());
+        if (fileResponse.success) {
+            const files = fileResponse.payload.data.files.reduce((prev, cur) => {
+                prev[cur.name] = cur.file;
+                return prev;
+            },{});
+            Object.entries(files).map(([name, file]) => {
+                audio[name] = `${fileResponse.payload.data.tag}-${file}`;
+            })
+            console.log(audio);
+
+            const response = await fetch('/api/v1/audio', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify(audio),
+            }).then(res => res.json());
+            
+            console.log(fileResponse);
+            console.log(response);
+        }
+    }
+
+    const reset = () => {
+        setAudio({
+            id: null,
+            title: '',
+            description: '',
+            mantra: '',
+            description: '',
+            url: '',
+            coverUrl: '',
+            thumbnail: '',
+            createdDate: new Date()
         })
     }
 
@@ -58,7 +89,7 @@ export default function Quotes() {
             <div className="w-full h-full flex gap-10 overflow-hidden">
                 <div className="w-full h-full flex flex-col overflow-hidden">
                     <div className="w-full h-full overflow-y-auto">
-                        <UniversalForm type={FormType.Audio} formData={audio} setFormData={setAudio}/>
+                        <UniversalForm type={FormType.Audio} formData={audio} setFormData={setAudio} />
                     </div>
                     <div className="py-2 flex justify-end">
                         <button className="bg-gray-100 px-3 py-2 rounded-md" onClick={onSave}>Save</button>
@@ -70,7 +101,7 @@ export default function Quotes() {
                         {
                             audios.map((audio, index) => {
                                 return (
-                                    <AudioCard key={index} audio={audio}/>
+                                    <AudioCard key={index} audio={audio} />
                                 )
                             })
                         }

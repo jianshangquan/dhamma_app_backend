@@ -1,7 +1,7 @@
 
 import { firestore } from "@/db/firebase"
 import Utils from "@/utils/Utils";
-import { collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAt } from "firebase/firestore"
+import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAt } from "firebase/firestore"
 import shortid from "shortid"
 
 
@@ -16,6 +16,7 @@ export default function Mantra({
     coverUrl = '',
     createdDate = new Date()
 } = {}) {
+    const serverTime = new Date();
     return {
         id,
         title,
@@ -23,6 +24,7 @@ export default function Mantra({
         mantra,
         defination,
         coverUrl,
+        serverTime,
         createdDate,
     }
 }
@@ -45,7 +47,7 @@ export default function Mantra({
 
 Mantra.find = async function ({ skip = 0, limit: lmt = 10 } = {}) {
     const mantraRef = collection(firestore, COLLECTION_NAME);
-    const q = query(mantraRef, orderBy('createdDate'), startAt(skip), limit(lmt))
+    const q = query(mantraRef, orderBy('serverTime', 'desc'), startAt(Timestamp.fromDate(new Date())), limit(lmt))
     const snapshot = await getDocs(q);
     const data = snapshot.docs.map((doc) => {
         const d = doc.data();
@@ -75,7 +77,13 @@ Mantra.save = async function ({ data = new Mantra() } = {}) {
     const { title, subtitle, mantra, defination, coverUrl, createdDate, } = data;
     const mantraCollection = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraCollection)
-    await setDoc(mantraDoc, { id: mantraDoc.id, title, subtitle, mantra, defination, coverUrl, createdDate })
+    const d =  { 
+        id: mantraDoc.id, 
+        serverTime: serverTimestamp(),
+        createdDate: Timestamp.fromDate(new Date(createdDate)),
+        title, subtitle, mantra, defination, coverUrl };
+    await setDoc(mantraDoc, d);
+    return d;
 }
 
 

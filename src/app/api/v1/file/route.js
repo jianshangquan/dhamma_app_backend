@@ -69,7 +69,7 @@ export async function POST(req, { params }) {
             const filepath = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/${tag.length == 0 ? shortid() : tag}-${groupid}`;
             fs.mkdirSync(filepath, { recursive: true })
             const writeStream = fs.createWriteStream(path.resolve(`${filepath}/${file}`));
-            files.push(file)
+            files.push({ name, file })
             stream.pipe(writeStream);
         })
 

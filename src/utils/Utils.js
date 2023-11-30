@@ -19,9 +19,8 @@ const Utils = {
         
         Object.entries(data).forEach(([k,v]) => {
             if(v instanceof File){
-                return formData.append('file', v)
+                return formData.append(k, v);
             }
-            formData.append(k, v);
         })
 
         return fetch(withQuery('/api/v1/file', { tag, groupid }), {

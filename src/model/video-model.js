@@ -1,7 +1,7 @@
 
 import { firestore } from "@/db/firebase"
 import Utils from "@/utils/Utils";
-import { collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAt } from "firebase/firestore"
+import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAt } from "firebase/firestore"
 import shortid from "shortid"
 
 
@@ -18,20 +18,24 @@ export default function Video({
     description= '',
     thumbnail= '',
     url= '',
+    bishop='',
     createdDate= new Date()
 } = {}){
+    const serverTime = new Date();
     return {
         id,
         title,
         subtitle,
         mantra,
         defination,
-        year,
+        year,        
+        bishop,
         duration,
         description,
         thumbnail,
         url,
         createdDate,
+        serverTime
     }
 }
 
@@ -45,7 +49,7 @@ export default function Video({
 
 Video.find = async function ({ skip = 0, limit: lmt = 10 } = {}) {
     const mantraRef = collection(firestore, COLLECTION_NAME);
-    const q = query(mantraRef, orderBy('createdDate'), startAt(skip), limit(lmt))
+    const q = query(mantraRef, orderBy('serverTime', 'desc'), startAt(Timestamp.fromDate(new Date())), limit(lmt))
     const snapshot = await getDocs(q);
     const data = snapshot.docs.map((doc) => {
         const d = doc.data();
@@ -75,7 +79,14 @@ Video.save = async function ({ data = new Video() } = {}) {
     const { title, subtitle, mantra, defination, year, duration, description, thumbnail, url, createdDate } = data;
     const mantraCollection = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraCollection)
-    await setDoc(mantraDoc, { id: mantraDoc.id, title, subtitle, mantra, defination, year, duration, description, thumbnail, url, createdDate })
+    const d = { 
+        id: mantraDoc.id, 
+        serverTime: serverTimestamp(),
+        createdDate: Timestamp.fromDate(new Date(createdDate)),
+        title, subtitle, mantra, defination, year, duration, description, thumbnail, url 
+    };
+    await setDoc(mantraDoc, d);
+    return d;
 }
 
 
@@ -83,7 +94,10 @@ Video.save = async function ({ data = new Video() } = {}) {
 Video.updateById = async function (id, { title, subtitle, mantra, defination, year, duration, description, thumbnail, url, createdDate }) {
     const mantraCollection = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraCollection, id)
-    const updateData = Utils.removeUndefineProperty({ title, subtitle, mantra, defination, year, duration, description, thumbnail, url, createdDate })
+    const updateData = Utils.removeUndefineProperty({ 
+        createdDate: Timestamp.fromDate(new Date(createdDate)),
+        title, subtitle, mantra, defination, year, duration, description, thumbnail, url 
+    })
     await setDoc(mantraDoc, { id: mantraDoc.id, ...updateData }, { merge: true })
 }
 

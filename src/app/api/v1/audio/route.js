@@ -18,3 +18,8 @@ export async function GET(request, { param }){
 
 
 
+export async function POST( request, { param }){
+    const body = await request.json();
+    const save = await Audio.save({ data: new Audio(body) });
+    return JsonResponse.success({ data: save }).build();
+}

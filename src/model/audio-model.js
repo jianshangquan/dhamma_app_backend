@@ -1,6 +1,7 @@
 import shortid from "shortid"
-import { collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAt } from "firebase/firestore"
+import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAfter, startAt } from "firebase/firestore"
 import { firestore } from "@/db/firebase"
+import moment from "moment";
 
 
 const COLLECTION_NAME = 'audios';
@@ -14,8 +15,10 @@ export default function Audio({
     url= '',
     coverUrl= '',
     thumbnail= '',
+    bishop = '',
     createdDate= new Date()
 } = {}){
+    const serverTime = new Date();
     return {
         id,
         title,
@@ -23,9 +26,11 @@ export default function Audio({
         mantra,
         defination,
         url,
+        bishop,
         coverUrl,
         thumbnail,
         createdDate,
+        serverTime
     }
 }
 
@@ -33,9 +38,9 @@ export default function Audio({
 
 
 
-Audio.find = async function ({ skip = 0, limit: lmt = 10 } = {}) {
+Audio.find = async function ({ skip = 0, limit: lmt = 3 } = {}) {
     const mantraRef = collection(firestore, COLLECTION_NAME);
-    const q = query(mantraRef, orderBy('createdDate'), startAt(skip), limit(lmt))
+    const q = query(mantraRef, orderBy('serverTime', 'desc'), startAt(Timestamp.fromDate(new Date())), limit(lmt))
     const snapshot = await getDocs(q);
     const data = snapshot.docs.map((doc) => {
         const d = doc.data();
@@ -65,7 +70,14 @@ Audio.save = async function ({ data = new Audio() } = {}) {
     const { title, description, mantra, defination, url, coverUrl, thumbnail, createdDate } = data;
     const mantraCollection = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraCollection)
-    await setDoc(mantraDoc, { id: mantraDoc.id, title, description, mantra, defination, url, coverUrl, thumbnail, createdDate })
+    const d =  { 
+        id: mantraDoc.id, 
+        serverTime: serverTimestamp(),
+        createdDate: Timestamp.fromDate(new Date(createdDate)),
+        title, description, mantra, defination, url, coverUrl , thumbnail 
+    };
+    await setDoc(mantraDoc, d);
+    return d;
 }
 
 

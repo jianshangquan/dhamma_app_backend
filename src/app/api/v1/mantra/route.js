@@ -22,6 +22,13 @@ export async function GET(request, { param }){
 
 
 
+export async function POST(request, { param }){
+    const data = await request.json();
+    const save = await Mantra.save({ data: new Mantra(data) });
+    return JsonResponse.success({ data: save }).build();
+}
+
+
 
 // export async function GET(request, { param }){
 //     return JsonResponse.success({ data: {} }).build()
