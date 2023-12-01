@@ -6,7 +6,8 @@
     "dev": "next dev -p 9000",
     "build": "next build",
     "start": "next start -p 9000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "connect": "ssh root@149.28.158.186"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^2.0.3",
