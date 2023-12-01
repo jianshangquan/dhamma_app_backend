@@ -16,9 +16,7 @@ import Utils from "@/utils/Utils";
 // }
 
 
-// export const config = {
-//     runtime: 'nodejs', // or "edge"
-// }
+export const runtime = 'nodejs';
 
 export default function Mantras() {
 

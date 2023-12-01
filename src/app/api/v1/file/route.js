@@ -10,11 +10,11 @@ import Utils from "@/utils/Utils";
 import isValidPath from "is-valid-path";
 import { NextResponse } from 'next/server';
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-}
+// export const config = {
+//     api: {
+//         bodyParser: false,
+//     },
+// }
 
 
 

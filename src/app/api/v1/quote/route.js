@@ -11,11 +11,11 @@ import shortid from 'shortid';
 
 
 
-export const config = {
-    api: {
-        bodyParser: true,
-    },
-}
+// export const config = {
+//     api: {
+//         bodyParser: true,
+//     },
+// }
 
 
 export async function GET(request, { params }) {
