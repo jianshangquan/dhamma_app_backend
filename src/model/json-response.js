@@ -1,11 +1,13 @@
+import { HttpStatusCode } from 'axios';
 import { NextResponse } from 'next/server';
 
 const JsonResponse = {
-    error({ code, message, detailMessage, details = [] }) {
+    error({ code, httpStatusCode = HttpStatusCode.InternalServerError, message, detailMessage, details = [] }) {
         const tempData = {
             "success": false,
             "status": "fail",
             "code": code,
+            httpStatusCode,
             "error": {
                 "details": details,
                 "message": message,
@@ -18,15 +20,16 @@ const JsonResponse = {
             }
         };
         return {
-            build: () => NextResponse.json(tempData),
+            build: () => NextResponse.json(tempData, { status: httpStatusCode }),
             data: tempData
         }
     },
-    success({ code = 200, message = null, detailMessage = null, data = {} } = {}) {
+    success({ code, httpStatusCode = HttpStatusCode.Ok, message = null, detailMessage = null, data = {} } = {}) {
         const tempData = {
             "success": true,
             "status": "success",
             "code": code,
+            httpStatusCode,
             "error": null,
             "payload": {
                 "message": message,
@@ -35,7 +38,7 @@ const JsonResponse = {
             }
         }
         return {
-            build: () => NextResponse.json(tempData),
+            build: () => NextResponse.json(tempData, { status: httpStatusCode }),
             data: tempData
         }
     }

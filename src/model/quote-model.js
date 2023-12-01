@@ -3,6 +3,7 @@ import Utils from "@/utils/Utils";
 import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAt, where } from "firebase/firestore"
 import shortid from "shortid";
 import RandomQuote from 'random-quotes';
+import { DBError, DBErrorCode } from "./error/error";
 
 
 const COLLECTION_NAME = 'quotes';
@@ -64,7 +65,7 @@ Quote.findById = async function (id) {
     if (snapshot.exists()) {
         return snapshot.data()
     }
-    throw new Error('Mantra not found');
+    throw new DBError({ msg: 'Document not found', name: 'Document not found', code: DBErrorCode.DOCUMENT_NOT_FOUND });
 }
 
 
@@ -146,6 +147,5 @@ Quote.updateById = async function (id, { createdDate, quote, author }) {
 
 Quote.deleteById = async function (id) {
     const mantraDoc = doc(firestore, COLLECTION_NAME, id)
-    const response = await deleteDoc(mantraDoc)
-    console.log(response);
+    const response = await deleteDoc(mantraDoc);
 }
