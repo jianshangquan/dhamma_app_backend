@@ -1,12 +1,13 @@
 'use client'
 import { ArrowRight } from '@icon-park/react';
 import moment from 'moment';
+import Image from 'next/image';
 
 export default function MantraCard({ onClick, mantra }) {
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
-            <div className="w-[35%] aspect-square bg-gray-200 rounded-md">
-
+            <div className="w-[35%] aspect-square bg-gray-200 rounded-md relative">
+                <Image src={`/api/v1/file/${mantra.coverUrl}`} fill={true} objectFit='cover' alt='image'/>
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">

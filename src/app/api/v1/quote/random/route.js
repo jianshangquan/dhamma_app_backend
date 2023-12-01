@@ -7,7 +7,10 @@ import JsonResponse from '@/model/json-response';
 import Quote from '@/model/quote-model';
 
 export async function GET(request, { params }) {
-    const quote = await Quote.latest();
+
+
+    const quote = await Quote.getRandom();
+
     return JsonResponse.success({ data: quote }).build();
 }
 

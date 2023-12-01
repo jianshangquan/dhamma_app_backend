@@ -17,6 +17,8 @@ import { NextResponse } from 'next/server';
 // }
 
 
+const APP_DATA = process.env.NEXT_APP_DIR;
+
 
 function parsePath(path = '', t){
     const p = (path || shortid()).replace(/[.]|[/]|\\/g, '');
@@ -25,8 +27,6 @@ function parsePath(path = '', t){
     return p;
 }
 
-
-const FileServer = 'http://localhost:5000'
 
 export async function POST(req, { params }) {
     // const formdata = await req.formData();
@@ -67,7 +67,7 @@ export async function POST(req, { params }) {
             const id = shortid();
             const ext = path.extname(info.filename);
             const file = `${id}${ext}`;
-            const filepath = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/public/${tag.length == 0 ? shortid() : tag}-${groupId}`;
+            const filepath = `${APP_DATA}/public/${tag.length == 0 ? shortid() : tag}-${groupId}`;
             fs.mkdirSync(filepath, { recursive: true })
             const writeStream = fs.createWriteStream(path.resolve(`${filepath}/${file}`));
             files.push({ name, file })

@@ -1,6 +1,6 @@
 import { firestore } from "@/db/firebase"
 import Utils from "@/utils/Utils";
-import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAt } from "firebase/firestore"
+import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAt, where } from "firebase/firestore"
 import shortid from "shortid";
 import RandomQuote from 'random-quotes';
 
@@ -14,16 +14,16 @@ export default function Quote({
     author = {
         name: null
     }
-} = {}){
+} = {}) {
 
-    if(!quote && !author.name){
+    if (!quote && !author.name) {
         const rand = RandomQuote();
         quote = rand.body;
         author.name = rand.author;
     }
 
     return {
-        id, 
+        id,
         createdDate,
         serverTime: new Date(),
         quote,
@@ -61,7 +61,7 @@ Quote.findById = async function (id) {
     const mantraRef = collection(firestore, COLLECTION_NAME);
     const mantraDoc = doc(mantraRef, id)
     const snapshot = await getDoc(mantraDoc);
-    if(snapshot.exists()){
+    if (snapshot.exists()) {
         return snapshot.data()
     }
     throw new Error('Mantra not found');
@@ -69,18 +69,68 @@ Quote.findById = async function (id) {
 
 
 
+
+Quote.latest = async function () {
+    const today = new Date();
+    const mantraRef = collection(firestore, COLLECTION_NAME);
+    const q = query(mantraRef, where('createdDate', '<=', Timestamp.fromDate(today)), limit(1))
+    const snapshot = await getDocs(q);
+    const data = snapshot.docs.map((doc) => {
+        const d = doc.data();
+        return {
+            id: doc.id,
+            ...d,
+            createdDate: d.createdDate.toDate()
+        }
+    });
+    return data[0];
+}
+
+
+Quote.getRandom = async function () {
+    const random = Math.random();
+    const mantraRef = collection(firestore, COLLECTION_NAME);
+
+    async function get(condition = '>=') {
+        const q = query(mantraRef, where('random', condition, random), limit(1))
+        const snapshot = await getDocs(q);
+        return snapshot;
+    }
+
+
+    let snapshot = await get();
+    if (snapshot.empty) {
+        snapshot = await get('<=');
+        if (snapshot.empty)
+            return {}
+    }
+
+
+    const data = snapshot.docs.map((doc) => {
+        const d = doc.data();
+        return {
+            id: doc.id,
+            ...d,
+            createdDate: d.createdDate.toDate()
+        }
+    });
+    return data[0];
+}
+
+
 Quote.save = async function (data = new Quote()) {
     const { createdDate, quote, author } = data;
     const mantraCollection = collection(firestore, COLLECTION_NAME);
-    const mantraDoc = doc(mantraCollection)
-    const d = { 
-        id: mantraDoc.id, 
-        createdDate: Timestamp.fromDate(new Date(createdDate)), 
+    const mantraDoc = doc(mantraCollection);
+    const random = Math.random();
+    const d = {
+        id: mantraDoc.id,
+        createdDate: Timestamp.fromDate(new Date(createdDate)),
         serverTime: serverTimestamp(),
-        quote, 
-        author 
+        quote,
+        author
     };
-    await setDoc(mantraDoc, d)
+    await setDoc(mantraDoc, { ...d, random });
     return d;
 }
 

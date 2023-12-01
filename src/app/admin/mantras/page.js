@@ -59,7 +59,7 @@ export default function Mantras() {
                 return prev;
             }, {});
             Object.entries(files).map(([name, file]) => {
-                mantra[name] = `${tag}-${file}`;
+                mantra[name] = `mantra-${fileResponse.payload.data.groupId}/${file}`;
             })
 
             const response = await fetch('/api/v1/mantra', {

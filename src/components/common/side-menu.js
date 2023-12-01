@@ -2,10 +2,10 @@
 import Link from 'next/link';
 
 const Menus = [
-    {
-      path: '/admin',
-      label: 'Home'  
-    },
+    // {
+    //   path: '/admin',
+    //   label: 'Home'  
+    // },
     {
         path: '/admin/quote',
         label: 'Daily quote'
