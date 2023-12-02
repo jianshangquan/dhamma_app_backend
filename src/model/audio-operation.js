@@ -79,6 +79,23 @@ Audio.updateById = async function (id, { title, description, mantra, defination,
 }
 
 
+
+Audio.getAudiosByBishop = async function (){
+    await connectDB();
+    const data = await AudioModel.aggregate([
+        {
+            $group: { 
+                _id: '$bishop',
+                count: { $sum: 1 },
+                audios: { $push: "$_id" }
+            }
+        }
+    ])
+    return data;
+}
+
+
+
 Audio.deleteById = async function (id) {
     await connectDB();
     const del = await AudioModel.deleteById(id);

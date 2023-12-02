@@ -25,7 +25,7 @@ export default function VideoCard({ onClick, video }) {
             <div className='flex justify-between items-center w-full'>
                 <div className="flex flex-col gap-2 min-w-[40%]">
                     <div className="flex flex-col text-[0.75rem] opacity-60">
-                        <div>{'ဆရာတော် : '}</div>
+                        <div>{'ဆရာတော် : '}{video.bishop}</div>
                         <div>{'Created date : '}{moment(video.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
                         <div>{'Duration : '}{Utils.convertSecondsToHoursMinutesAndSeconds(video.duration)}</div>
                     </div>

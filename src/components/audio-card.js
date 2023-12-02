@@ -34,7 +34,7 @@ export default function AudioCard({ audio, onClick }) {
                 </div>
 
                 <div className="flex flex-col text-[0.75rem] opacity-60">
-                    <div>{'ဆရာတော် : '}</div>
+                    <div>{'ဆရာတော် : '}{audio.bishop}</div>
                     <div>{'Created date : '}{moment(audio.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
                     <div>{'Duration : '}{Utils.convertSecondsToHoursMinutesAndSeconds(audio.duration)}</div>
                 </div>

@@ -18,12 +18,12 @@ export default function UniversalForm({ formData, setFormData, type = FormType.M
                 <input type="text" className="bg-gray-100 rounded-md p-2" value={formData.title} onChange={({ target }) => setFormData(d => ({ ...d, title: target.value }))} />
             </div>
             <div className="flex flex-col gap-1">
-                <span className="capitalize">Description</span>
-                <textarea type="text" className="bg-gray-100 rounded-md p-2" value={formData.description} onChange={({ target }) => setFormData(d => ({ ...d, description: target.value }))} />
+                <span className="capitalize">Bishop</span>
+                <input type="text" className="bg-gray-100 rounded-md p-2" value={formData.bishop} onChange={({ target }) => setFormData(d => ({ ...d, bishop: target.value }))} />
             </div>
             <div className="flex flex-col gap-1">
-                <span className="capitalize">Bishop</span>
-                <textarea type="text" className="bg-gray-100 rounded-md p-2 min-h-[10rem]" value={formData.bishop} onChange={({ target }) => setFormData(d => ({ ...d, bishop: target.value }))} />
+                <span className="capitalize">Description</span>
+                <textarea type="text" className="bg-gray-100 rounded-md p-2" value={formData.description} onChange={({ target }) => setFormData(d => ({ ...d, description: target.value }))} />
             </div>
             <div className="flex flex-col gap-1">
                 <span className="capitalize">Mantra</span>

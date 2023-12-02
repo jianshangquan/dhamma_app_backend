@@ -21,7 +21,11 @@ const Menus = [
     {
         path: '/admin/mantras',
         label: 'Mantras'
-    }
+    },
+    // {
+    //     path: '/admin/playlist',
+    //     label: 'Playlist'
+    // }
 ]
 
 
