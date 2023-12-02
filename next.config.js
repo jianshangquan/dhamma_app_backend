@@ -12,7 +12,7 @@ const nextConfig = {
         ]
     },
     experimental: {
-        serverComponentsExternalPackages: ['mongoose'],
+        serverComponentsExternalPackages: ['mongoose', '@ffprobe-installer/ffprobe'],
     }
 }
 

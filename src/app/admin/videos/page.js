@@ -27,6 +27,7 @@ export default function Videos() {
         url: '',
         coverUrl: '',
         thumbnail: '',
+        bishop: '',
         createdDate: new Date()
     })
 
@@ -43,12 +44,18 @@ export default function Videos() {
         const fileResponse = await Utils.uploadFile({ tag, data: video }).then(res => res.json());
         if (fileResponse.success) {
             const files = fileResponse.payload.data.files.reduce((prev, cur) => {
-                prev[cur.name] = cur.file;
+                prev[cur.name] = {
+                    name: cur.file,
+                    duration: cur.duration
+                };
                 return prev;
             },{});
             const { groupId } = fileResponse.payload.data;
-            Object.entries(files).map(([name, file]) => {
-                video[name] = `${tag}-${groupId}/${file}`;
+            Object.entries(files).map(([key, file]) => {
+                video[key] = `${tag}-${groupId}/${file.name}`;
+                if(key == 'url'){
+                    video.duration = file.duration;
+                }
             })
 
             console.log(video);

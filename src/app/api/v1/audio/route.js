@@ -10,9 +10,9 @@ import shortid from "shortid";
 
 export async function GET(request, { param }){
 
-    const { skip, limit = 10 } = Utils.searchParams(request.url);
+    const { skip = 0, limit = 10 } = Utils.searchParams(request.url);
 
-    const data = await Audio.find();
+    const data = await Audio.find({ skip, limit });
     return JsonResponse.success({  data: data }).build();
 }
 

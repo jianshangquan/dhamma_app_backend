@@ -10,10 +10,10 @@ import shortid from "shortid";
 
 export async function GET(request, { param }){
 
-    const { skip, limit } = Utils.searchParams(request.url);
+    const { skip = 0, limit = 10 } = Utils.searchParams(request.url);
 
 
-    const data = await Video.find();
+    const data = await Video.find({ skip, limit });
     return JsonResponse.success({ data: data }).build();
 }
 

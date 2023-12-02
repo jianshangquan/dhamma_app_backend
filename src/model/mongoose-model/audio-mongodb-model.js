@@ -9,6 +9,7 @@ const AudioSchema = new mongoose.Schema({
     bishop: String,
     coverUrl: String,
     thumbnail: String,
+    duration: Number,
     createdDate: { type: Date, default: () => new Date() },
     serverTime: { type: Date, default: () => new Date() }
 });

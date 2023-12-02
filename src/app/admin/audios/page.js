@@ -28,6 +28,7 @@ export default function Quotes() {
         url: '',
         coverUrl: '',
         thumbnail: '',
+        bishop: '',
         createdDate: new Date()
     })
 
@@ -51,12 +52,18 @@ export default function Quotes() {
         const fileResponse = await Utils.uploadFile({ tag, data: audio }).then(res => res.json());
         if (fileResponse.success) {
             const files = fileResponse.payload.data.files.reduce((prev, cur) => {
-                prev[cur.name] = cur.file;
+                prev[cur.name] = {
+                    name: cur.file,
+                    duration: cur.duration
+                };
                 return prev;
             }, {});
             const { groupId } = fileResponse.payload.data;
-            Object.entries(files).map(([name, file]) => {
-                audio[name] = `${tag}-${groupId}/${file}`;
+            Object.entries(files).map(([key, file]) => {
+                audio[key] = `${tag}-${groupId}/${file.name}`;
+                if(key == 'url'){
+                    audio.duration = file.duration;
+                }
             })
 
             const response = await fetch('/api/v1/audio', {
@@ -79,6 +86,7 @@ export default function Quotes() {
             description: '',
             url: '',
             coverUrl: '',
+            bishop: '',
             thumbnail: '',
             createdDate: new Date()
         })

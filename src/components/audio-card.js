@@ -1,7 +1,15 @@
 'use client'
+import Utils from '@/utils/Utils';
 import { ArrowRight, PlayOne } from '@icon-park/react';
 import moment from 'moment';
 import Image from 'next/image';
+
+
+
+
+
+
+
 
 export default function AudioCard({ audio, onClick }) {
 
@@ -14,7 +22,7 @@ export default function AudioCard({ audio, onClick }) {
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
             <div className="w-[35%] aspect-square bg-gray-200 rounded-md relative overflow-hidden group-hover:shadow-xl transition-all">
-                <Image src={`/api/v1/file/${audio.coverUrl}`} fill={true} objectFit='cover' alt='image'/>
+                <Image src={`/api/v1/file/${audio.coverUrl}`} fill={true} objectFit='cover' alt='image' />
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
@@ -28,7 +36,7 @@ export default function AudioCard({ audio, onClick }) {
                 <div className="flex flex-col text-[0.75rem] opacity-60">
                     <div>{'ဆရာတော် : '}</div>
                     <div>{'Created date : '}{moment(audio.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
-                    <div>{'Duration : '}{moment(audio.createdDate).format('hh:mm')}</div>
+                    <div>{'Duration : '}{Utils.convertSecondsToHoursMinutesAndSeconds(audio.duration)}</div>
                 </div>
                 <audio controls className='bg-gray-200 rounded-full shadow-md' src={`/api/v1/file/${audio.url}`}></audio>
 
@@ -44,9 +52,9 @@ export default function AudioCard({ audio, onClick }) {
 
 
 
-AudioCard.Detail = function AudioDetail () {
+AudioCard.Detail = function AudioDetail() {
 
-    
+
     return (
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2 px-2">
             <div className="flex flex-col gap-1 text-[0.9rem] opacity-60">

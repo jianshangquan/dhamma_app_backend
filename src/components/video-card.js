@@ -1,4 +1,5 @@
 'use client'
+import Utils from '@/utils/Utils';
 import { ArrowRight, PlayOne } from '@icon-park/react';
 import moment from 'moment';
 
@@ -26,7 +27,7 @@ export default function VideoCard({ onClick, video }) {
                     <div className="flex flex-col text-[0.75rem] opacity-60">
                         <div>{'ဆရာတော် : '}</div>
                         <div>{'Created date : '}{moment(video.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
-                        <div>{'Duration : '}{moment(video.createdDate).format('hh:mm')}</div>
+                        <div>{'Duration : '}{Utils.convertSecondsToHoursMinutesAndSeconds(video.duration)}</div>
                     </div>
                 </div>
                 <ArrowRight theme="outline" size="21" strokeWidth={3} className='group-hover:translate-x-[0%] group-hover:opacity-100 opacity-0 transition-all translate-x-[-50%]' />

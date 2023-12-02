@@ -9,6 +9,8 @@ import path from "path";
 import Utils from "@/utils/Utils";
 import isValidPath from "is-valid-path";
 import { NextResponse } from 'next/server';
+import mime from 'mime-types';
+import Media from "@/utils/Media";
 
 // export const config = {
 //     api: {
@@ -22,7 +24,7 @@ const APP_DATA = process.env.NEXT_APP_DIR;
 
 function parsePath(path = '', t){
     const p = (path || shortid()).replace(/[.]|[/]|\\/g, '');
-    console.log('p', path, t);
+    // console.log('p', path, t);
     if(p.length == 0) return shortid();
     return p;
 }
@@ -52,11 +54,14 @@ export async function POST(req, { params }) {
 
 
 
-    const files = [];
     const searchParam = Utils.searchParams(req.url);
     const tag = parsePath(searchParam.tag, 'tag');
     const groupId = parsePath(searchParam.groupId);
-    await new Promise((resolve, reject) => {
+    console.log('content', req.headers.get('Content-type') || req.headers.get('Content-Type'))
+    const folderpath = `${APP_DATA}/public/${tag.length == 0 ? shortid() : tag}-${groupId}`;
+
+    const files = await new Promise((resolve, reject) => {
+        let files = [];
         const bb = busboy({
             headers: {
                 ...req.headers,
@@ -67,15 +72,27 @@ export async function POST(req, { params }) {
             const id = shortid();
             const ext = path.extname(info.filename);
             const file = `${id}${ext}`;
-            const filepath = `${APP_DATA}/public/${tag.length == 0 ? shortid() : tag}-${groupId}`;
-            fs.mkdirSync(filepath, { recursive: true })
-            const writeStream = fs.createWriteStream(path.resolve(`${filepath}/${file}`));
-            files.push({ name, file })
+            const filepath = `${folderpath}/${file}`;
+            fs.mkdirSync(folderpath, { recursive: true })
+            const writeStream = fs.createWriteStream(path.resolve(`${filepath}`));
             stream.pipe(writeStream);
+            stream.on('close', async () => {
+                files.push({ 
+                    name,
+                    file,
+                    info
+                })
+            })
         })
 
-        bb.on('close', () => {
-            resolve()
+        bb.on('close', async () => {
+            for(let i = 0; i < files.length; i ++){
+                const file = files[i];
+                const filepath = `${folderpath}/${file.file}`;
+                const duration = await Media.getDurationFromMimeType(filepath, file.info.mimeType);
+                files[i].duration = duration;
+            }
+            resolve(files);
         })
 
         Readable.fromWeb(req.body).pipe(bb);
@@ -91,9 +108,6 @@ export async function POST(req, { params }) {
         }
     }).build()
 } 
-
-
-
 
 
 

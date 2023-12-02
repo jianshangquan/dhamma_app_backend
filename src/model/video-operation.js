@@ -68,11 +68,11 @@ Video.findById = async function (id) {
 
 Video.save = async function ({ data = new Video() } = {}) {
     await connectDB();
-    const { title, subtitle, mantra, defination, year, duration, description, thumbnail, url, coverUrl } = data;
+    const { title, subtitle, mantra, defination, year, duration, description, bishop, thumbnail, url, coverUrl } = data;
     const d = {
         createdDate: new Date(),
         title, subtitle, mantra, defination, year, duration, description, thumbnail, url ,
-        coverUrl
+        coverUrl, bishop,
     };
     await new VideoModel(d).save();
     return d;

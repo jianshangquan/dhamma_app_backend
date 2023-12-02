@@ -18,6 +18,7 @@ export default function Audio({
     coverUrl= '',
     thumbnail= '',
     bishop = '',
+    duration = 0,
     createdDate= new Date()
 } = {}){
     const serverTime = new Date();
@@ -32,6 +33,7 @@ export default function Audio({
         coverUrl,
         thumbnail,
         createdDate,
+        duration,
         serverTime
     }
 }
@@ -57,10 +59,11 @@ Audio.findById = async function (id) {
 
 Audio.save = async function ({ data = new Audio() } = {}) {
     await connectDB();
-    const { title, description, mantra, defination, url, coverUrl, thumbnail, createdDate } = data;
+    const { title, description, mantra, defination, url, coverUrl, thumbnail, duration, bishop, createdDate } = data;
     const d =  { 
         createdDate: new Date(),
-        title, description, mantra, defination, url, coverUrl , thumbnail 
+        title, description, mantra, defination, url, coverUrl , thumbnail ,
+        duration, bishop,
     };
     await new AudioModel(d).save();
     return d;
