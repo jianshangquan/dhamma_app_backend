@@ -2,7 +2,7 @@
 // https://www.bawdiwiki.com/
 
 import JsonResponse from "@/model/json-response";
-import Mantra from "@/model/mantra-model";
+import Mantra from "@/model/mantra-operation";
 import shortid from "shortid";
 
 

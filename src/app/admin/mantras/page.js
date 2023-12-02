@@ -7,7 +7,7 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft } from '@icon-park/react';
 import shortid from "shortid";
-import Mantra from "@/model/mantra-model";
+import Mantra from "@/model/mantra-operation";
 import Utils from "@/utils/Utils";
 
 // export const metadata = {

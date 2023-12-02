@@ -3,7 +3,7 @@
 
 import { DBError, DBErrorCode } from '@/model/error/error';
 import JsonResponse from '@/model/json-response';
-import Quote from '@/model/quote-model';
+import Quote from '@/model/quote-operation';
 import Utils from '@/utils/Utils';
 import { HttpStatusCode } from 'axios';
 import { NextResponse } from 'next/server';

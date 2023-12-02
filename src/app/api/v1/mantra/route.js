@@ -1,22 +1,17 @@
 
 // https://www.bawdiwiki.com/
 
+import connectDB from "@/db/mongodb";
 import JsonResponse from "@/model/json-response";
-import Mantra from "@/model/mantra-model";
+import Mantra from "@/model/mantra-operation";
 import Utils from "@/utils/Utils";
 import shortid from "shortid";
 
 
 
 export async function GET(request, { param }){
-
-    const { skip, limit } = Utils.searchParams(request.url);
-
-    // return JsonResponse.success({ 
-    //     data: [ new Mantra() ]
-    // }).build();
-
-    const mantras = await Mantra.find();
+    const { skip = 0, limit = 10 } = Utils.searchParams(request.url);
+    const mantras = await Mantra.find({ skip, limit });
     return JsonResponse.success({ data: mantras }).build();
 }
 
@@ -28,9 +23,4 @@ export async function POST(request, { param }){
     return JsonResponse.success({ data: save }).build();
 }
 
-
-
-// export async function GET(request, { param }){
-//     return JsonResponse.success({ data: {} }).build()
-// }
 

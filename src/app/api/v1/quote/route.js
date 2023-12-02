@@ -2,7 +2,7 @@
 
 
 import JsonResponse from '@/model/json-response';
-import Quote from '@/model/quote-model';
+import Quote from '@/model/quote-operation';
 import Utils from '@/utils/Utils';
 import { NextResponse } from 'next/server';
 import RandomQuote from 'random-quotes';

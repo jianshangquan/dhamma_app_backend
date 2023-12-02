@@ -2,6 +2,8 @@ import shortid from "shortid"
 import { Timestamp, collection, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, startAfter, startAt } from "firebase/firestore"
 import { firestore } from "@/db/firebase"
 import moment from "moment";
+import AudioModel from "./mongoose-model/audio-mongodb-model";
+import connectDB from "@/db/mongodb";
 
 
 const COLLECTION_NAME = 'audios';
@@ -38,60 +40,44 @@ export default function Audio({
 
 
 
-Audio.find = async function ({ skip = 0, limit: lmt = 3 } = {}) {
-    const mantraRef = collection(firestore, COLLECTION_NAME);
-    const q = query(mantraRef, orderBy('serverTime', 'desc'), startAt(Timestamp.fromDate(new Date())), limit(lmt))
-    const snapshot = await getDocs(q);
-    const data = snapshot.docs.map((doc) => {
-        const d = doc.data();
-        return {
-            id: doc.id,
-            ...d,
-            createdDate: d.createdDate.toDate()
-        }
-    });
+Audio.find = async function ({ skip = 0, limit = 3 } = {}) {
+    await connectDB();
+    const data = await AudioModel.find().skip(skip).limit(limit);
     return data;
 }
 
 
 Audio.findById = async function (id) {
-    const mantraRef = collection(firestore, COLLECTION_NAME);
-    const mantraDoc = doc(mantraRef, id)
-    const snapshot = await getDoc(mantraDoc);
-    if(snapshot.exists()){
-        return snapshot.data()
-    }
-    throw new Error('Mantra not found');
+    await connectDB();
+    const data = await AudioModel.findById(id);
+    return data;
 }
 
 
 
 Audio.save = async function ({ data = new Audio() } = {}) {
+    await connectDB();
     const { title, description, mantra, defination, url, coverUrl, thumbnail, createdDate } = data;
-    const mantraCollection = collection(firestore, COLLECTION_NAME);
-    const mantraDoc = doc(mantraCollection)
     const d =  { 
-        id: mantraDoc.id, 
-        serverTime: serverTimestamp(),
-        createdDate: Timestamp.fromDate(new Date(createdDate)),
+        createdDate: new Date(),
         title, description, mantra, defination, url, coverUrl , thumbnail 
     };
-    await setDoc(mantraDoc, d);
+    await new AudioModel(d).save();
     return d;
 }
 
 
 
 Audio.updateById = async function (id, { title, description, mantra, defination, url, coverUrl, thumbnail, createdDate }) {
-    const mantraCollection = collection(firestore, COLLECTION_NAME);
-    const mantraDoc = doc(mantraCollection, id)
+    await connectDB()
     const updateData = Utils.removeUndefineProperty({ title, description, mantra, defination, url, coverUrl, thumbnail, createdDate })
-    await setDoc(mantraDoc, { id: mantraDoc.id, ...updateData }, { merge: true })
+    const data = await AudioModel.findByIdAndUpdate(id, updateData);
+    return data;
 }
 
 
 Audio.deleteById = async function (id) {
-    const mantraDoc = doc(firestore, COLLECTION_NAME, id)
-    const response = await deleteDoc(mantraDoc)
-    console.log(response);
+    await connectDB();
+    const del = await AudioModel.deleteById(id);
+    return del;
 }
