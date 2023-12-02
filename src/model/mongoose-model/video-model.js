@@ -18,6 +18,7 @@ export default function Video({
     description= '',
     thumbnail= '',
     url= '',
+    coverUrl= '',
     bishop='',
     createdDate= new Date()
 } = {}){
@@ -35,6 +36,7 @@ export default function Video({
         thumbnail,
         url,
         createdDate,
+        coverUrl,
         serverTime
     }
 }

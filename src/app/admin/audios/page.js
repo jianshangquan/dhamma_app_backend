@@ -47,17 +47,17 @@ export default function Quotes() {
 
 
     const onSave = async () => {
-        const fileResponse = await Utils.uploadFile({ tag: 'audio', data: audio }).then(res => res.json());
+        const tag = 'audio';
+        const fileResponse = await Utils.uploadFile({ tag, data: audio }).then(res => res.json());
         if (fileResponse.success) {
             const files = fileResponse.payload.data.files.reduce((prev, cur) => {
                 prev[cur.name] = cur.file;
                 return prev;
-            },{});
-            const { groupId, tag } = fileResponse.payload.data;
+            }, {});
+            const { groupId } = fileResponse.payload.data;
             Object.entries(files).map(([name, file]) => {
                 audio[name] = `${tag}-${groupId}/${file}`;
             })
-            console.log(audio);
 
             const response = await fetch('/api/v1/audio', {
                 method: 'POST',

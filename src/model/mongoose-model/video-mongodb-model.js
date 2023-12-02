@@ -7,6 +7,7 @@ const VideoSchema = new mongoose.Schema({
     mantra: String,
     defination: String,
     url: String,
+    coverUrl: String,
     bishop: String,
     coverUrl: String,
     thumbnail: String,

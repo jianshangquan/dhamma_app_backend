@@ -36,7 +36,6 @@ export default function Quotes() {
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(quote)
         }).then(res => res.json()).then(res => {
-            // console.log(res)
             if(res.success){
                 setQuotes(qs => [ res.payload.data, ...qs])
             }

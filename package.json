@@ -21,6 +21,8 @@
     "firebase-admin": "^11.11.1",
     "formidable": "^3.5.1",
     "framer-motion": "^10.16.5",
+    "get-audio-duration": "^4.0.1",
+    "get-video-duration": "^4.1.0",
     "ip-info-finder": "^3.0.3",
     "ip-location": "^1.0.1",
     "is-valid-path": "^0.1.1",

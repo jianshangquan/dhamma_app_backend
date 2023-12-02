@@ -46,11 +46,12 @@ export default function Videos() {
                 prev[cur.name] = cur.file;
                 return prev;
             },{});
+            const { groupId } = fileResponse.payload.data;
             Object.entries(files).map(([name, file]) => {
-                video[name] = `${tag}-${file}`;
+                video[name] = `${tag}-${groupId}/${file}`;
             })
-            console.log(video);
 
+            console.log(video);
             const response = await fetch('/api/v1/video', {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },

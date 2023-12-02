@@ -20,6 +20,7 @@ export default function Video({
     description= '',
     thumbnail= '',
     url= '',
+    coverUrl='',
     bishop='',
     createdDate= new Date()
 } = {}){
@@ -36,6 +37,7 @@ export default function Video({
         description,
         thumbnail,
         url,
+        coverUrl,
         createdDate,
         serverTime
     }
@@ -66,10 +68,11 @@ Video.findById = async function (id) {
 
 Video.save = async function ({ data = new Video() } = {}) {
     await connectDB();
-    const { title, subtitle, mantra, defination, year, duration, description, thumbnail, url, createdDate } = data;
+    const { title, subtitle, mantra, defination, year, duration, description, thumbnail, url, coverUrl } = data;
     const d = {
         createdDate: new Date(),
-        title, subtitle, mantra, defination, year, duration, description, thumbnail, url 
+        title, subtitle, mantra, defination, year, duration, description, thumbnail, url ,
+        coverUrl
     };
     await new VideoModel(d).save();
     return d;
