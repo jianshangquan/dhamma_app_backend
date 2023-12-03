@@ -3,10 +3,12 @@
 import AudioCard from "@/components/audio-card";
 import QuoteForm from "@/components/quote-form";
 import UniversalForm, { FormType } from "@/components/universal-form";
+import useComponentPigmengation from "@/hook/useComponentPigmengation";
 import useFetchState, { FetchState } from "@/hook/useFetchState";
 import Utils from "@/utils/Utils";
 import moment from "moment";
 import { useState, useRef, useEffect } from "react";
+import withQuery from 'with-query';
 
 // export const metadata = {
 //     title: 'Admin panel',
@@ -18,6 +20,7 @@ export default function Quotes() {
 
 
     const pageRef = useRef();
+    const scrollDiv = useRef();
     const fetchStatus = useFetchState();
     const [audios, setAudios] = useState([]);
     const [selectedAudio, setSelectedAudio] = useState(null);
@@ -34,19 +37,21 @@ export default function Quotes() {
         createdDate: new Date()
     })
 
-    useEffect(() => {
-        fetch('/api/v1/audio').then(res => res.json()).then(res => {
+    const { pause, start } = useComponentPigmengation(scrollDiv, () => {
+        fetchData({ skip: audios.length });
+    }, { threshold: 0.95, dependicies: [audios] });
+
+
+    useEffect(() => fetchData(), [])
+
+    const fetchData = ({ skip = audios.length, limit = 10 } = {}) => {
+        pause();
+        fetch(withQuery('/api/v1/audio', { skip, limit })).then(res => res.json()).then(res => {
             console.log(res);
-            setAudios(res.payload.data)
+            start();
+            setAudios(a => [...a, ...res.payload.data])
         });
-    }, [])
-
-
-    useEffect(() => {
-        // Utils.uploadFile({ tag: 'audio', data: audio }).then(res => {
-        //     console.log(res)
-        // })
-    }, [audio])
+    }
 
 
     const onSave = async () => {
@@ -140,7 +145,7 @@ export default function Quotes() {
                 </div>
                 <div className="w-full h-full flex flex-col gap-2">
                     <div className="font-bold text-[1.1rem]">Audio list</div>
-                    <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
+                    <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
                         {
                             audios.map((audio, index) => {
                                 return (

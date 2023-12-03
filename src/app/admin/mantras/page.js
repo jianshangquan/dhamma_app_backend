@@ -10,6 +10,8 @@ import shortid from "shortid";
 import Mantra from "@/model/mantra-operation";
 import Utils from "@/utils/Utils";
 import useFetchState, { FetchState } from "@/hook/useFetchState";
+import useComponentPigmengation from "@/hook/useComponentPigmengation";
+import withQuery from 'with-query'
 
 // export const metadata = {
 //     title: 'Admin panel',
@@ -22,6 +24,7 @@ export const runtime = 'nodejs';
 export default function Mantras() {
 
     const pageRef = useRef();
+    const scrollDiv = useRef();
     const fetchStatus = useFetchState();
     const [mantras, setMantras] = useState([]);
     const [selectedMantra, setSelectedMantra] = useState(null);
@@ -36,11 +39,12 @@ export default function Mantras() {
         createdDate: new Date()
     })
 
+    const { pause, start } = useComponentPigmengation(scrollDiv, () => {
+        fetchData({ skip: mantras.length });
+    }, { threshold: 0.95, dependicies: [mantras] });
+
     useEffect(() => {
-        fetch('/api/v1/mantra').then(res => res.json()).then(res => {
-            console.log(res);
-            setMantras(res.payload.data)
-        });
+        fetchData();
     }, [])
 
     useEffect(() => {
@@ -50,6 +54,15 @@ export default function Mantras() {
     }, [selectedMantra]);
 
 
+
+    const fetchData = ({ skip = mantras.length, limit = 10 } = {}) => {
+        pause();
+        fetch(withQuery('/api/v1/mantra', { skip, limit })).then(res => res.json()).then(res => {
+            console.log(res);
+            start();
+            setMantras(m => [...m, ...res.payload.data])
+        });
+    }
 
 
     const onSave = async () => {
@@ -124,7 +137,7 @@ export default function Mantras() {
                 <Page ref={pageRef} className="w-full h-full">
                     <ChildPage key={1} preRender={true} className="min-w-full min-h-full flex flex-col gap-2 overflow-hidden">
                         <div className="font-bold text-[1.1rem]">Mantra list</div>
-                        <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
+                        <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
                             {
                                 mantras.map((mantra, index) => {
                                     return (<MantraCard key={index} onClick={() => setSelectedMantra(shortid())} mantra={mantra} />)

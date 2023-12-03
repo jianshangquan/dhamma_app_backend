@@ -7,6 +7,8 @@ import moment from "moment";
 import UniversalForm, { FormType } from "@/components/universal-form";
 import Utils from "@/utils/Utils";
 import useFetchState, { FetchState } from "@/hook/useFetchState";
+import useComponentPigmengation from "@/hook/useComponentPigmengation";
+import withQuery from 'with-query';
 
 // export const metadata = {
 //     title: 'Admin panel',
@@ -17,6 +19,7 @@ import useFetchState, { FetchState } from "@/hook/useFetchState";
 export default function Videos() {
 
     const pageRef = useRef();
+    const scrollDiv = useRef();
     const fetchStatus = useFetchState();
     const [videos, setVideos] = useState([]);
     const [selectedVideo, setSelectedVideo] = useState(null);
@@ -32,13 +35,21 @@ export default function Videos() {
         bishop: '',
         createdDate: new Date()
     })
+    const { pause, start } = useComponentPigmengation(scrollDiv, () => {
+        fetchData({ skip: videos.length });
+    }, { threshold: 0.95, dependicies: [videos] });
 
-    useEffect(() => {
-        fetch('/api/v1/video').then(res => res.json()).then(res => {
+    useEffect(() => fetchData(), []);
+
+    const fetchData = ({ skip = videos.length, limit = 10 } = {}) => {
+        pause();
+        fetch(withQuery('/api/v1/video', { skip, limit })).then(res => res.json()).then(res => {
             console.log(res);
-            setVideos(res.payload.data)
+            start();
+            setVideos(v => [...v, ...res.payload.data])
         });
-    }, [])
+    }
+
 
 
     const onSave = async () => {
@@ -74,7 +85,7 @@ export default function Videos() {
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(video),
             }).then(res => res.json()).then(res => {
-                if(res.success){
+                if (res.success) {
                     setVideos(v => [res.payload.data, ...v]);
                 }
             });;
@@ -117,7 +128,7 @@ export default function Videos() {
                 </div>
                 <div className="w-full h-full flex flex-col gap-2">
                     <div className="font-bold text-[1.1rem]">Videos list</div>
-                    <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
+                    <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
                         {
                             videos.map((video, index) => {
                                 return (<VideoCard key={index} video={video} />)

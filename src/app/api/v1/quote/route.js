@@ -22,7 +22,7 @@ export async function GET(request, { params }) {
 
     const { skip, limit } = Utils.searchParams(request.url);
 
-    const data = await Quote.find();
+    const data = await Quote.find({ skip, limit });
     return JsonResponse.success({
         data:data
     }).build()

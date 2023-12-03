@@ -2,8 +2,10 @@
 
 import QuoteCard from "@/components/quote-card";
 import QuoteForm from "@/components/quote-form";
+import useComponentPigmengation from "@/hook/useComponentPigmengation";
 import useFetchState, { FetchState } from "@/hook/useFetchState";
 import { useState, useRef, useEffect } from "react";
+import withQuery from 'with-query';
 
 // export const metadata = {
 //     title: 'Admin panel',
@@ -15,6 +17,7 @@ export default function Quotes() {
 
 
     const pageRef = useRef();
+    const scrollDiv = useRef();
     const fetchState = useFetchState();
     const [quotes, setQuotes] = useState([]);
     const [quote, setQuote] = useState({
@@ -26,11 +29,25 @@ export default function Quotes() {
     })
     const [selectedQuote, setSelectedQuote] = useState(null);
 
+    const { pause, start } = useComponentPigmengation(scrollDiv, () => {
+        fetchData({ skip: quotes.length });
+    }, { threshold: 0.95, dependicies: [quotes] });
+
     useEffect(() => {
         fetch('/api/v1/quote').then(res => res.json()).then(res => {
             setQuotes(res.payload.data)
         });
     }, []);
+
+
+    const fetchData = ({ skip = videos.length, limit = 10 } = {}) => {
+        pause();
+        fetch(withQuery('/api/v1/quote', { skip, limit })).then(res => res.json()).then(res => {
+            console.log(res);
+            start();
+            setQuotes(q => [...q, ...res.payload.data])
+        });
+    }
 
     const onSave = () => {
         fetchState.loading();
@@ -74,7 +91,7 @@ export default function Quotes() {
                 </div>
                 <div className="w-full h-full flex flex-col gap-2">
                     <div className="font-bold text-[1.1rem]">Quote list</div>
-                    <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
+                    <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
                         {
                             quotes.map((quote, index) => {
                                 return ( <QuoteCard key={index} quote={quote}/> )

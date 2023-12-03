@@ -44,7 +44,7 @@ export default function Audio({
 
 Audio.find = async function ({ skip = 0, limit = 3 } = {}) {
     await connectDB();
-    const data = await AudioModel.find().skip(skip).limit(limit);
+    const data = await AudioModel.find().sort({ createdDate: 1 }).skip(skip).limit(limit);
     return data;
 }
 

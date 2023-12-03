@@ -46,7 +46,7 @@ export default function Quote({
 
 Quote.find = async function ({ skip = 0, limit = 10 } = {}) {
     await connectDB();
-    const quotes = await QuoteModel.find().skip(skip).limit(limit);
+    const quotes = await QuoteModel.find().sort({createdDate: -1}).skip(skip).limit(limit);
     return quotes;
 }
 
@@ -70,10 +70,27 @@ Quote.latest = async function () {
 
 Quote.getRandom = async function () {
     await connectDB();
-    const rand = Math.random();
-    let data = await QuoteModel.findOne({ rand: { $lte: rand } });
-    if(data == null) QuoteModel.findOne({ rand: { $gte: rand } });
-    return data;
+    // const rand = Math.random();
+    // console.log('rand', rand);
+    // let data = await QuoteModel.findOne({ rand: { $gte: rand } });
+    // if(data == null) QuoteModel.findOne({ rand: { $lte: rand } });
+
+    const data = await QuoteModel.aggregate([
+        {
+            $addFields:  {
+                'rnd': { $rand: {} }
+            },
+        },
+        {
+            $sort: { 
+                'rnd' : 1
+            }
+        },
+        { $limit: 1 },
+        { $unset: 'rnd' }
+    ]);
+
+    return data[0];
 }
 
 
