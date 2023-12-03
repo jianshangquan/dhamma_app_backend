@@ -78,7 +78,11 @@ export default function Mantras() {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(mantra),
-            }).then(res => res.json());
+            }).then(res => res.json()).then(res => {
+                if(res.success){
+                    setMantras(m => [res.payload.data, ...m]);
+                }
+            });;
             fetchStatus.completed();
 
             setTimeout(() => {

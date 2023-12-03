@@ -74,8 +74,7 @@ Video.save = async function ({ data = new Video() } = {}) {
         title, subtitle, mantra, defination, year, duration, description, thumbnail, url ,
         coverUrl, bishop,
     };
-    await new VideoModel(d).save();
-    return d;
+    return await new VideoModel(d).save();
 }
 
 

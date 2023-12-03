@@ -1,6 +1,7 @@
 import JsonResponse from '@/model/json-response';
 import fs from 'fs';
 import path from 'path';
+import { headers } from '../../../../../../next.config';
 // import { Response } from 'next/server';
 
 const APP_DATA = process.env.NEXT_APP_DIR;
@@ -14,8 +15,8 @@ export async function GET(request, { params }) {
         return JsonResponse.error({ message: 'File does not exist' }).build();
 
     const range = request.headers.get('range');
+    const videoSize = fs.statSync(file).size;
     if (range) {
-        const videoSize = fs.statSync(file).size;
         const CHUNK_SIZE = 10 ** 6 // 1MB;
         const start = Number(range.replace(/\D/g, ""));
         const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
@@ -33,6 +34,10 @@ export async function GET(request, { params }) {
         return response;
     } else {
         const stream = fs.createReadStream(file);
-        return new Response(stream);
+        return new Response(stream, {
+            headers: {
+                'Content-Disposition': 'inline',
+            }
+        });
     }
 }

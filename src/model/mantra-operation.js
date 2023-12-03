@@ -77,8 +77,7 @@ Mantra.save = async function ({ data = new Mantra() } = {}) {
         createdDate: new Date(),
         title, subtitle, mantra, defination, coverUrl 
     };
-    await new MantraModel(d).save();
-    return d;
+    return await new MantraModel(d).save();
 }
 
 

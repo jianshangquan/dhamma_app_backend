@@ -65,8 +65,7 @@ Audio.save = async function ({ data = new Audio() } = {}) {
         title, description, mantra, defination, url, coverUrl , thumbnail ,
         duration, bishop,
     };
-    await new AudioModel(d).save();
-    return d;
+    return await new AudioModel(d).save();
 }
 
 

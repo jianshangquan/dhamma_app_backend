@@ -84,8 +84,7 @@ Quote.save = async function (data = new Quote()) {
         quote,
         author
     };
-    await QuoteModel(d).save();
-    return d;
+    return await QuoteModel(d).save();
 }
 
 

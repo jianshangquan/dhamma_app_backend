@@ -73,7 +73,11 @@ export default function Videos() {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(video),
-            }).then(res => res.json());
+            }).then(res => res.json()).then(res => {
+                if(res.success){
+                    setVideos(v => [res.payload.data, ...v]);
+                }
+            });;
             fetchStatus.completed();
 
             setTimeout(() => {

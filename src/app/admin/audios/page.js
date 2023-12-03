@@ -81,7 +81,11 @@ export default function Quotes() {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(audio),
-            }).then(res => res.json());
+            }).then(res => res.json()).then(res => {
+                if(res.success){
+                    setAudios(a => [res.payload.data, ...a]);
+                }
+            });
             fetchStatus.completed();
 
             setTimeout(() => {
