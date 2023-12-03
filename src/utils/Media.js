@@ -4,7 +4,7 @@
 import ffprobe from 'ffprobe';
 
 
-const FFPROBE = process.env.NEXT_FFPROBE || '/opt/homebrew/bin/ffprobe';
+const FFPROBE = process.env.NEXT_FFPROBE;
 
 export default {
     async getDurationFromMimeType(filePath, mime = ''){
