@@ -86,7 +86,8 @@ Audio.getAudiosByBishop = async function (){
             $group: { 
                 _id: '$bishop',
                 count: { $sum: 1 },
-                audios: { $push: "$_id" }
+                // audios: { $push: "$_id" }
+                audios: { $push: '$$ROOT' }
             }
         }
     ])
