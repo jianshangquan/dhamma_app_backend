@@ -9,6 +9,7 @@ import { ArrowLeft } from '@icon-park/react';
 import shortid from "shortid";
 import Mantra from "@/model/mantra-operation";
 import Utils from "@/utils/Utils";
+import useFetchState, { FetchState } from "@/hook/useFetchState";
 
 // export const metadata = {
 //     title: 'Admin panel',
@@ -21,6 +22,7 @@ export const runtime = 'nodejs';
 export default function Mantras() {
 
     const pageRef = useRef();
+    const fetchStatus = useFetchState();
     const [mantras, setMantras] = useState([]);
     const [selectedMantra, setSelectedMantra] = useState(null);
     const [mantra, setMantra] = useState({
@@ -52,8 +54,16 @@ export default function Mantras() {
 
     const onSave = async () => {
         const tag = 'mantra';
-        const fileResponse = await Utils.uploadFile({ tag, data: mantra }).then(res => res.json());
+        fetchStatus.loading();
+        const fileResponse = await Utils.uploadFile({
+            tag, data: mantra, onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent;
+                let percent = Math.floor((loaded * 100) / total);
+                fetchStatus.loading(percent);
+            }
+        });
         if (fileResponse.success) {
+            fetchStatus.completed({ message: 'Upload file completed' });
             const files = fileResponse.payload.data.files.reduce((prev, cur) => {
                 prev[cur.name] = cur.file;
                 return prev;
@@ -63,11 +73,17 @@ export default function Mantras() {
                 mantra[name] = `${tag}-${groupId}/${file}`;
             })
 
+            fetchStatus.loading(null);
             const response = await fetch('/api/v1/mantra', {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(mantra),
             }).then(res => res.json());
+            fetchStatus.completed();
+
+            setTimeout(() => {
+                fetchStatus.notInitialize();
+            }, 1000)
 
             console.log(fileResponse);
             console.log(response);
@@ -83,7 +99,21 @@ export default function Mantras() {
                     <div className="w-full h-full overflow-y-auto">
                         <UniversalForm type={FormType.Mantra} setFormData={setMantra} formData={mantra} />
                     </div>
-                    <div className="py-2 flex justify-end">
+                    <div className="py-2 flex justify-end items-center gap-2">
+                        <div className="text-[0.8rem]">{(() => {
+                            if (fetchStatus.status.status == FetchState.LOADING && fetchStatus.status.progress == null) {
+                                return `Saving...`;
+                            }
+                            if (fetchStatus.status.status == FetchState.LOADING) {
+                                return `Saving... ${fetchStatus.status.progress}%`;
+                            }
+                            if (fetchStatus.status.status == FetchState.COMPLETED) {
+                                return 'Completed'
+                            }
+                            if (fetchStatus.status.status == FetchState.ERROR) {
+                                return fetchStatus.status.error;
+                            }
+                        })()}</div>
                         <button className="bg-gray-100 px-3 py-2 rounded-md" onClick={onSave}>Save</button>
                     </div>
                 </div>

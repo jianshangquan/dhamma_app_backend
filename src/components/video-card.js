@@ -10,8 +10,6 @@ export default function VideoCard({ onClick, video }) {
 
     }
 
-    console.log(video)
-
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex flex-col gap-3 rounded-md items-start group cursor-pointer">
             <video className='bg-gray-200 rounded-md aspect-video w-full' controls src={`/api/v1/file/${video.url}`} preload={'none'} poster={`/api/v1/file/${video.coverUrl}`}></video>

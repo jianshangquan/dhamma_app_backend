@@ -16,7 +16,7 @@ export async function GET(request, { params }) {
     const range = request.headers.get('range');
     if (range) {
         const videoSize = fs.statSync(file).size;
-        const CHUNK_SIZE = 10 ** 6;
+        const CHUNK_SIZE = 10 ** 6 // 1MB;
         const start = Number(range.replace(/\D/g, ""));
         const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
         const contentLength = end - start + 1;

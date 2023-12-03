@@ -1,5 +1,6 @@
 import shortid from "shortid";
 import withQuery from 'with-query';
+import axios from 'axios';
 
 
 
@@ -16,7 +17,7 @@ const Utils = {
         })
         return ob;
     },
-    uploadFile({ tag, groupid = shortid(), data = {} } = {}) {
+    uploadFile({ tag, groupid = shortid(), data = {}, onUploadProgress = () => {}, onDownloadProgress } = {}) {
         const formData = new FormData();
 
         Object.entries(data).forEach(([k, v]) => {
@@ -25,10 +26,14 @@ const Utils = {
             }
         })
 
-        return fetch(withQuery('/api/v1/file', { tag, groupid }), {
-            method: 'POST',
-            body: formData
-        })
+        return axios.post(withQuery('/api/v1/file', { tag, groupid }), formData, { onUploadProgress, onDownloadProgress }).then(res => {
+            return res.data;
+        })        
+
+        // return fetch(withQuery('/api/v1/file', { tag, groupid }), {
+        //     method: 'POST',
+        //     body: formData
+        // })
     },
     convertSecondsToHoursMinutesAndSeconds(seconds) {
         // Calculate hours, minutes, and remaining seconds

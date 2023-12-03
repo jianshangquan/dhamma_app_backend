@@ -1,8 +1,7 @@
 import { DBError } from '@/model/error/error';
 import mongoose from 'mongoose';
 
-const MONGODB_PASSWORD = "SEINSHWEAUNG";
-
+const MONGODB_URL = process.env.NEXT_MONGODB_URL;
 
 let DB_CONNECTED = false;
 export default async function connectDB(){
@@ -13,7 +12,7 @@ export default async function connectDB(){
     }
     try{
         console.log('new connection db');
-        await mongoose.connect(`mongodb+srv://root:${MONGODB_PASSWORD}@cluster0.yzyvczm.mongodb.net/dhamma?retryWrites=true&w=majority`);
+        await mongoose.connect(MONGODB_URL);
         DB_CONNECTED = true;
     }catch(e){
         console.log(e)

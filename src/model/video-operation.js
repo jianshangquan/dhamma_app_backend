@@ -53,7 +53,7 @@ export default function Video({
 
 Video.find = async function ({ skip = 0, limit = 10 } = {}) {
     await connectDB();
-    const data = await VideoModel.find().skip(skip).limit(limit);
+    const data = await VideoModel.find().sort({ createdDate: -1 }).skip(skip).limit(limit);
     return data;
 }
 
