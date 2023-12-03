@@ -10,6 +10,7 @@ export async function GET(request, { params }) {
 
 
     const quote = await Quote.getRandom();
+    console.log('random quote', quote);
 
     return JsonResponse.success({ data: quote }).build();
 }
