@@ -90,7 +90,9 @@ Quote.getRandom = async function () {
         { $unset: 'rnd' }
     ]);
 
-    return data[0];
+    if(data.length != 0)
+        return data[0];
+    return null;
 }
 
 
