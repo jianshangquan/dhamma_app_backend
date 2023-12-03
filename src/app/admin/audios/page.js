@@ -1,11 +1,13 @@
 'use client';
 
 import AudioCard from "@/components/audio-card";
+import Page, { ChildPage } from "@/components/common/Page";
 import QuoteForm from "@/components/quote-form";
 import UniversalForm, { FormType } from "@/components/universal-form";
 import useComponentPigmengation from "@/hook/useComponentPigmengation";
 import useFetchState, { FetchState } from "@/hook/useFetchState";
 import Utils from "@/utils/Utils";
+import { ArrowLeft } from '@icon-park/react';
 import moment from "moment";
 import { useState, useRef, useEffect } from "react";
 import withQuery from 'with-query';
@@ -87,7 +89,7 @@ export default function Quotes() {
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(audio),
             }).then(res => res.json()).then(res => {
-                if(res.success){
+                if (res.success) {
                     setAudios(a => [res.payload.data, ...a]);
                 }
             });
@@ -143,18 +145,38 @@ export default function Quotes() {
                         <button className="bg-gray-100 px-3 py-2 rounded-md" onClick={onSave}>Save</button>
                     </div>
                 </div>
-                <div className="w-full h-full flex flex-col gap-2">
-                    <div className="font-bold text-[1.1rem]">Audio list</div>
-                    <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
-                        {
-                            audios.map((audio, index) => {
-                                return (
-                                    <AudioCard key={index} audio={audio} />
-                                )
-                            })
-                        }
-                    </div>
-                </div>
+                <Page ref={pageRef} className="w-full h-full">
+                    <ChildPage preRender={true} className="min-w-full min-h-full flex flex-col gap-2">
+                        <div className="font-bold text-[1.1rem]">Audio list</div>
+                        <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
+                            {
+                                audios.map((audio, index) => {
+                                    return (
+                                        <AudioCard key={index} audio={audio} onClick={() => {
+                                            setSelectedAudio(audio);
+                                            pageRef.current.next();
+                                        }} onDelete={() => {
+                                            setAudios(a => {
+                                                const newAudios = [...a];
+                                                newAudios.splice(index, 1);
+                                                return newAudios;
+                                            })
+                                        }}/>
+                                    )
+                                })
+                            }
+                        </div>
+                    </ChildPage>
+                    <ChildPage key={2} className="min-w-full min-h-full flex flex-col overflow-hidden">
+                        <div className="font-bold text-[1.1rem] flex gap-2 items-center py-2">
+                            <div className="rounded-full bg-white p-3 cursor-pointer border border-transparent hover:border-gray-100" onClick={() => pageRef.current.prev()}>
+                                <ArrowLeft theme="outline" size="21" strokeWidth={3} />
+                            </div>
+                            {selectedAudio?.title}
+                        </div>
+                        <AudioCard.Detail audio={selectedAudio} />
+                    </ChildPage>
+                </Page>
             </div>
         </div>
     )

@@ -47,11 +47,11 @@ export default function Mantras() {
         fetchData();
     }, [])
 
-    useEffect(() => {
-        console.log(selectedMantra)
-        if (selectedMantra == null) pageRef.current.prev();
-        else pageRef.current.next();
-    }, [selectedMantra]);
+    // useEffect(() => {
+    //     console.log(selectedMantra)
+    //     if (selectedMantra == null) pageRef.current.prev();
+    //     else pageRef.current.next();
+    // }, [selectedMantra]);
 
 
 
@@ -92,7 +92,7 @@ export default function Mantras() {
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify(mantra),
             }).then(res => res.json()).then(res => {
-                if(res.success){
+                if (res.success) {
                     setMantras(m => [res.payload.data, ...m]);
                 }
             });;
@@ -140,19 +140,30 @@ export default function Mantras() {
                         <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
                             {
                                 mantras.map((mantra, index) => {
-                                    return (<MantraCard key={index} onClick={() => setSelectedMantra(shortid())} mantra={mantra} />)
+                                    return (
+                                        <MantraCard key={index} mantra={mantra} onClick={() => {
+                                            setSelectedMantra(mantra);
+                                            pageRef.current.next();
+                                        }} onDelete={() => {
+                                            setMantras(a => {
+                                                const newMantras = [...a];
+                                                newMantras.splice(index, 1);
+                                                return newMantras;
+                                            })
+                                        }}/>
+                                    )
                                 })
                             }
                         </div>
                     </ChildPage>
                     <ChildPage key={2} className="min-w-full min-h-full flex flex-col overflow-hidden">
                         <div className="font-bold text-[1.1rem] flex gap-2 items-center py-2">
-                            <div className="rounded-full bg-white p-3 cursor-pointer border border-transparent hover:border-gray-100" onClick={() => setSelectedMantra(null)}>
+                            <div className="rounded-full bg-white p-3 cursor-pointer border border-transparent hover:border-gray-100" onClick={() => pageRef.current.prev()}>
                                 <ArrowLeft theme="outline" size="21" strokeWidth={3} />
                             </div>
-                            Mantra List
+                            {selectedMantra?.title}
                         </div>
-                        <MantraCard.Detail />
+                        <MantraCard.Detail mantra={selectedMantra} />
                     </ChildPage>
                 </Page>
             </div>

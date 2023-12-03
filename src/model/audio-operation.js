@@ -97,6 +97,6 @@ Audio.getAudiosByBishop = async function (){
 
 Audio.deleteById = async function (id) {
     await connectDB();
-    const del = await AudioModel.deleteById(id);
+    const del = await AudioModel.findByIdAndDelete(id);
     return del;
 }

@@ -56,9 +56,9 @@ export default function Quotes() {
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(quote)
         }).then(res => res.json()).then(res => {
-            if(res.success){
+            if (res.success) {
                 fetchState.completed(res.payload.data);
-                setQuotes(qs => [ res.payload.data, ...qs])
+                setQuotes(qs => [res.payload.data, ...qs])
             }
             setTimeout(() => {
                 fetchState.notInitialize();
@@ -72,17 +72,17 @@ export default function Quotes() {
             <div className="w-full h-full flex gap-10 overflow-hidden">
                 <div className="w-full h-full flex flex-col overflow-hidden">
                     <div className="w-full h-full overflow-y-auto">
-                        <QuoteForm quote={quote} setQuote={setQuote}/>
+                        <QuoteForm quote={quote} setQuote={setQuote} />
                     </div>
                     <div className="py-2 flex justify-end items-center gap-2">
                         <div className="text-[0.8rem]">{(() => {
-                            if(fetchState.status.status == FetchState.LOADING){
+                            if (fetchState.status.status == FetchState.LOADING) {
                                 return 'Saving...'
                             }
-                            if(fetchState.status.status == FetchState.COMPLETED){
+                            if (fetchState.status.status == FetchState.COMPLETED) {
                                 return 'Completed'
                             }
-                            if(fetchState.status.status == FetchState.ERROR){
+                            if (fetchState.status.status == FetchState.ERROR) {
                                 return fetchState.status.error;
                             }
                         })()}</div>
@@ -94,7 +94,13 @@ export default function Quotes() {
                     <div className="w-full h-full overflow-y-auto flex flex-col gap-2" ref={scrollDiv}>
                         {
                             quotes.map((quote, index) => {
-                                return ( <QuoteCard key={index} quote={quote}/> )
+                                return (<QuoteCard key={index} quote={quote} onDelete={() => {
+                                    setQuotes(a => {
+                                        const newQuotes = [...a];
+                                        newQuotes.splice(index, 1);
+                                        return newQuotes;
+                                    })
+                                }} />)
                             })
                         }
                     </div>
