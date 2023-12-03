@@ -87,7 +87,7 @@ Quote.getRandom = async function () {
             }
         },
         { $limit: 1 },
-        { $unset: 'rnd' }
+        // { $unset: 'rnd' }
     ]);
 
     if(data.length != 0)
