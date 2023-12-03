@@ -70,11 +70,6 @@ Quote.latest = async function () {
 
 Quote.getRandom = async function () {
     await connectDB();
-    // const rand = Math.random();
-    // console.log('rand', rand);
-    // let data = await QuoteModel.findOne({ rand: { $gte: rand } });
-    // if(data == null) QuoteModel.findOne({ rand: { $lte: rand } });
-
     const data = await QuoteModel.aggregate([
         {
             $addFields:  {
