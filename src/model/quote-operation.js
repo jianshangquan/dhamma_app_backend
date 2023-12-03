@@ -78,7 +78,7 @@ Quote.getRandom = async function () {
     const data = await QuoteModel.aggregate([
         {
             $addFields:  {
-                'rnd': { $rand: {} }
+                'rnd': { $add: [ { $rand: {} }, '$rand' ] }
             },
         },
         {
@@ -86,12 +86,12 @@ Quote.getRandom = async function () {
                 'rnd' : 1
             }
         },
-        { $limit: 1 },
+        { $limit: 10 },
         // { $unset: 'rnd' }
     ]);
 
     if(data.length != 0)
-        return data[0];
+        return data[Utils.randomIntFromInterval(0, data.length - 1)];
     return null;
 }
 

@@ -5,6 +5,9 @@ import axios from 'axios';
 
 
 const Utils = {
+    randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    },
     searchParams(url) {
         const { searchParams } = new URL(url);
         return Object.fromEntries(searchParams.entries())
