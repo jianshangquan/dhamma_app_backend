@@ -6,7 +6,7 @@ import AudioModel from "./mongoose-model/audio-mongodb-model";
 import connectDB from "@/db/mongodb";
 
 
-const COLLECTION_NAME = 'audios';
+
 
 export default function Audio({
     id= shortid(),

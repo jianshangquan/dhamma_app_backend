@@ -26,7 +26,7 @@ export async function GET(request, { params }) {
             status: 206,
             headers: {
                 'Content-Disposition': 'inline',
-                "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+                "Content-Range": `bytes ${start}-${videoSize}/${videoSize}`,
                 "Accept-Ranges": "bytes",
                 "Content-Length": contentLength,
             }
@@ -36,7 +36,10 @@ export async function GET(request, { params }) {
         const stream = fs.createReadStream(file);
         return new Response(stream, {
             headers: {
-                'Content-Disposition': 'inline',
+                'Content-Disposition': 'attachment;',
+                "Content-Range": `bytes 0-${videoSize}/${videoSize}`,
+                "Accept-Ranges": "bytes",
+                "Content-Length": videoSize,
             }
         });
     }
