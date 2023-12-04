@@ -29,7 +29,7 @@ const Utils = {
             }
         })
 
-        return axios.post(withQuery('/file', { tag, groupid }), formData, { onUploadProgress, onDownloadProgress }).then(res => {
+        return axios.post(withQuery('/api/v1/file', { tag, groupid }), formData, { onUploadProgress, onDownloadProgress }).then(res => {
             return res.data;
         })        
 
