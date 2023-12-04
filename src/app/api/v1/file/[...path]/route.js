@@ -18,6 +18,7 @@ export async function GET(request, { params }) {
     const range = request.headers.get('range');
     const videoSize = fs.statSync(file).size;
     if (range) {
+        console.log("request file as range");
         const CHUNK_SIZE = 10 ** 6 // 1MB;
         const start = Number(range.replace(/\D/g, ""));
         const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
@@ -34,6 +35,7 @@ export async function GET(request, { params }) {
         });
         return response;
     } else {
+        console.log("request file as download");
         const stream = fs.createReadStream(file);
         return new Response(stream, {
             headers: {
