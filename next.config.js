@@ -13,6 +13,9 @@ const nextConfig = {
     },
     experimental: {
         serverComponentsExternalPackages: ['mongoose', '@ffprobe-installer/ffprobe'],
+    },
+    images: {
+        domains: ['localhost']
     }
 }
 

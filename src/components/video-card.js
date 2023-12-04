@@ -4,6 +4,9 @@ import { ArrowRight, DeleteFour } from '@icon-park/react';
 import moment from 'moment';
 import Image from 'next/image';
 
+
+const FILE_SERVER_URL = process.env.NEXT_PUBLIC_BACKEND_FILE_URL;
+
 export default function VideoCard({ onClick, video, onDelete }) {
 
 
@@ -20,7 +23,7 @@ export default function VideoCard({ onClick, video, onDelete }) {
 
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex flex-col gap-3 rounded-md items-start group cursor-pointer">
-            <video className='bg-gray-200 rounded-md aspect-video w-full' controls src={`/file/${video.url}`} preload={'none'} poster={`/file/${video.coverUrl}`}></video>
+            <video className='bg-gray-200 rounded-md aspect-video w-full' controls src={`${FILE_SERVER_URL}/${video.url}`} preload={'none'} poster={`${FILE_SERVER_URL}/${video.coverUrl}`}></video>
             <div className='flex flex-col'>
                 <div className="flex flex-col">
                     <div className="">{video.title}</div>
@@ -54,7 +57,7 @@ VideoCard.Detail = function VideoDetail ({ video }) {
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2 px-2">
             <div className="flex flex-col gap-1 text-[0.9rem]">
                 <div className="w-full aspect-video bg-gray-200 rounded-md relative">
-                    <video className='bg-gray-200 rounded-md aspect-video w-full' controls src={`/file/${video.url}`} preload={'none'} poster={`/file/${video.coverUrl}`}></video>
+                    <video className='bg-gray-200 rounded-md aspect-video w-full' controls src={`${FILE_SERVER_URL}/${video.url}`} preload={'none'} poster={`${FILE_SERVER_URL}/${video.coverUrl}`}></video>
                 </div>
                 <span className=' opacity-60'>{'ဆရာတော်: '}{video.bishop}</span>
                 <div className=' opacity-60'>{'Created date : '}{moment(video.createdDate).format('YYYY-DD-MM hh:mm A')}</div>

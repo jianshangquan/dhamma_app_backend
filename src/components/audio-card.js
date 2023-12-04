@@ -9,6 +9,7 @@ import Image from 'next/image';
 
 
 
+const FILE_SERVER_URL = process.env.NEXT_PUBLIC_BACKEND_FILE_URL;
 
 
 export default function AudioCard({ audio, onClick, onDelete }) {
@@ -30,7 +31,7 @@ export default function AudioCard({ audio, onClick, onDelete }) {
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
             <div className="w-[35%] aspect-square bg-gray-200 rounded-md relative overflow-hidden group-hover:shadow-xl transition-all">
-                <Image src={`/file/${audio?.coverUrl}`} fill={true} objectFit='cover' alt='image' />
+                <Image src={`${FILE_SERVER_URL}/${audio?.coverUrl}`} fill={true} objectFit='cover' alt='image' />
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
@@ -46,7 +47,7 @@ export default function AudioCard({ audio, onClick, onDelete }) {
                     <div>{'Created date : '}{moment(audio.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
                     <div>{'Duration : '}{Utils.convertSecondsToHoursMinutesAndSeconds(audio.duration)}</div>
                 </div>
-                <audio controls className='bg-gray-200 rounded-full shadow-md' src={`/file/${audio.url}`}></audio>
+                <audio controls className='bg-gray-200 rounded-full shadow-md' src={`${FILE_SERVER_URL}/${audio.url}`}></audio>
 
             </div>
             <div className='flex flex-col justify-between h-full items-center'>
@@ -62,18 +63,16 @@ export default function AudioCard({ audio, onClick, onDelete }) {
 
 
 AudioCard.Detail = function AudioDetail({ audio }) {
-
-
     return (
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2 px-2">
             <div className="flex flex-col gap-1 text-[0.9rem]">
                 <div className="w-[30%] aspect-square bg-gray-200 rounded-md relative">
-                    <Image src={`/file/${audio.coverUrl}`} fill style={{ objectFit: 'cover' }} alt=''/>
+                    <Image src={`${FILE_SERVER_URL}/${audio.coverUrl}`} fill style={{ objectFit: 'cover' }} alt=''/>
                 </div>
                 <span className='opacity-60'>{'ဆရာတော်: '}</span>
                 <div className='opacity-60'>{'Created date : '}{moment(new Date()).format('YYYY-DD-MM hh:mm A')}</div>
             </div>
-            <audio controls className='bg-gray-200 rounded-full shadow-md min-h-[2rem]' src={`/file/${audio.url}`}></audio>
+            <audio controls className='bg-gray-200 rounded-full shadow-md min-h-[2rem]' src={`${FILE_SERVER_URL}/${audio.url}`}></audio>
             <div className="flex flex-col gap-1">
                 <div className="font-bold">Mantra</div>
                 <div className="whitespace-pre-wrap font-light text-[0.9rem]">
