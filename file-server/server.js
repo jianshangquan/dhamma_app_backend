@@ -14,10 +14,10 @@ const __dirname = path.dirname(__filename);
 
 app.use('/**', (req, res, next) => {
     // res.send(req.url);
-    console.log(req.url);
+    console.log(req.baseUrl);
     next();
 })
-app.use(express.static(path.join(__dirname, './../data/public')));
+// app.use(express.static(path.join(__dirname, './../data/public')));
 
 
 app.post('/', (req, res, next) => {

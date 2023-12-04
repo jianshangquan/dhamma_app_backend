@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { headers } from '../../../../../../next.config';
 import { NextResponse } from 'next/server';
+import mime from 'mime/lite';
 // import { Response } from 'next/server';
 
 const APP_DATA = process.env.NEXT_APP_DIR;
@@ -40,12 +41,17 @@ export async function GET(request, { params }) {
         return new Response(stream, {
             headers: {
                 'Content-Disposition': 'attachment;',
-                "Content-Range": `bytes 0-${videoSize}/${videoSize}`,
                 "Accept-Ranges": "bytes",
-                'cache-control': 'no-cache, private',
+                'Cache-Control': 'no-cache',
                 'x-ratelimit-limit': 60,
                 'x-ratelimit-remaining': 59,
                 "Content-Length": videoSize,
+                'Content-Type': mime.getType(file),
+                'X-Content-Type-Options': 'nosniff',
+                'Last-Modified': new Date(),
+                'Upgrade': 'h2,h2c',
+                'Keep-Alive': 'timeout=3, max=100',
+                'Connection': 'Upgrade, Keep-Alive'
             }
         });
     }
