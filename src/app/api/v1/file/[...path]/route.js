@@ -39,6 +39,9 @@ export async function GET(request, { params }) {
                 'Content-Disposition': 'attachment;',
                 "Content-Range": `bytes 0-${videoSize}/${videoSize}`,
                 "Accept-Ranges": "bytes",
+                'cache-control': 'no-cache, private',
+                'x-ratelimit-limit': 60,
+                'x-ratelimit-remaining': 59,
                 "Content-Length": videoSize,
             }
         });
