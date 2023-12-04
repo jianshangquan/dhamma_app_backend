@@ -11,13 +11,13 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // console.log(path.join(__dirname, './../data/'));
-app.use(express.static(path.join(__dirname, './../data/public')));
 
 app.use('/**', (req, res, next) => {
     // res.send(req.url);
     console.log(req.url);
     next();
 })
+app.use(express.static(path.join(__dirname, './../data/public')));
 
 
 app.post('/', (req, res, next) => {

@@ -27,7 +27,7 @@ export async function GET(request, { params }) {
             status: 206,
             headers: {
                 'Content-Disposition': 'inline',
-                "Content-Range": `bytes ${start}-${videoSize}/${videoSize}`,
+                "Content-Range": `bytes ${start}-${end}/${videoSize}`,
                 "Accept-Ranges": "bytes",
                 "Content-Length": contentLength,
             }
@@ -35,15 +35,14 @@ export async function GET(request, { params }) {
         return response;
     } else {
         const stream = fs.createReadStream(file);
-        return new Response(stream);
         return new Response(stream, {
             headers: {
-                // 'Content-Disposition': 'attachment;',
-                // "Content-Range": `bytes 0-${videoSize}/${videoSize}`,
-                // "Accept-Ranges": "bytes",
-                // 'cache-control': 'no-cache, private',
-                // 'x-ratelimit-limit': 60,
-                // 'x-ratelimit-remaining': 59,
+                'Content-Disposition': 'attachment;',
+                "Content-Range": `bytes 0-${videoSize}/${videoSize}`,
+                "Accept-Ranges": "bytes",
+                'cache-control': 'no-cache, private',
+                'x-ratelimit-limit': 60,
+                'x-ratelimit-remaining': 59,
                 "Content-Length": videoSize,
             }
         });
