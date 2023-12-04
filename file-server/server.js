@@ -2,10 +2,16 @@ import express from 'express';
 import busboy from 'busboy';
 import fs from 'fs';
 import shortid from 'shortid';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// console.log(path.join(__dirname, './../data/'));
+app.use(express.static(path.join(__dirname, './../data/public')));
 
 
 app.post('/', (req, res, next) => {

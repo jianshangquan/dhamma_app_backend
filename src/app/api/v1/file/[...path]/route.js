@@ -2,6 +2,7 @@ import JsonResponse from '@/model/json-response';
 import fs from 'fs';
 import path from 'path';
 import { headers } from '../../../../../../next.config';
+import { NextResponse } from 'next/server';
 // import { Response } from 'next/server';
 
 const APP_DATA = process.env.NEXT_APP_DIR;
@@ -34,14 +35,15 @@ export async function GET(request, { params }) {
         return response;
     } else {
         const stream = fs.createReadStream(file);
+        return new Response(stream);
         return new Response(stream, {
             headers: {
-                'Content-Disposition': 'attachment;',
-                "Content-Range": `bytes 0-${videoSize}/${videoSize}`,
-                "Accept-Ranges": "bytes",
-                'cache-control': 'no-cache, private',
-                'x-ratelimit-limit': 60,
-                'x-ratelimit-remaining': 59,
+                // 'Content-Disposition': 'attachment;',
+                // "Content-Range": `bytes 0-${videoSize}/${videoSize}`,
+                // "Accept-Ranges": "bytes",
+                // 'cache-control': 'no-cache, private',
+                // 'x-ratelimit-limit': 60,
+                // 'x-ratelimit-remaining': 59,
                 "Content-Length": videoSize,
             }
         });
