@@ -31,7 +31,7 @@ export default function AudioCard({ audio, onClick, onDelete }) {
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
             <div className="w-[35%] aspect-square bg-gray-200 rounded-md relative overflow-hidden group-hover:shadow-xl transition-all">
-                <Image src={`${FILE_SERVER_URL}/${audio?.coverUrl}`} fill={true} objectFit='cover' alt='image' />
+                <img className='w-full h-full' src={`${FILE_SERVER_URL}/${audio?.coverUrl}`} fill={true} style={{objectFit: 'cover'}} alt='image' />
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
@@ -67,7 +67,7 @@ AudioCard.Detail = function AudioDetail({ audio }) {
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2 px-2">
             <div className="flex flex-col gap-1 text-[0.9rem]">
                 <div className="w-[30%] aspect-square bg-gray-200 rounded-md relative">
-                    <Image src={`${FILE_SERVER_URL}/${audio.coverUrl}`} fill style={{ objectFit: 'cover' }} alt=''/>
+                    <img className='w-full h-full' src={`${FILE_SERVER_URL}/${audio.coverUrl}`} fill style={{ objectFit: 'cover' }} alt=''/>
                 </div>
                 <span className='opacity-60'>{'ဆရာတော်: '}</span>
                 <div className='opacity-60'>{'Created date : '}{moment(new Date()).format('YYYY-DD-MM hh:mm A')}</div>
