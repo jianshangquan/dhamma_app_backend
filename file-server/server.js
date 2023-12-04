@@ -14,36 +14,43 @@ const __dirname = path.dirname(__filename);
 
 app.use('/**', (req, res, next) => {
     // res.send(req.url);
-    console.log(req.baseUrl);
     next();
 })
 // app.use(express.static(path.join(__dirname, './../data/public')));
 
 
-app.post('/', (req, res, next) => {
-    const bb = busboy({ headers: req.headers });
-
-    bb.on('file', (name, stream, info) => {
-        console.log(info);
-        const path = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/${shortid()}.mov`;
-        const writer = fs.createWriteStream(path);
-        stream.pipe(writer)
-    })
-
-
-    bb.on('close', async () => {
-
-        return res.json({
-            status: 'Succeed',
-            message: 'Upload media succeed',
-            payload: {}
-        })
-    })
-
-    req.pipe(bb)
-
-    // res.send({succeed: 'true'})
+app.get('/file/**', (req, res, next) => {
+    console.log('file', req.url);
+    const file = decodeURI(req.url).replace('/file/', '');
+    return res.sendFile(path.join(__dirname, './../data/public', file));
+    res.send({});
 })
+
+
+// app.post('/', (req, res, next) => {
+//     const bb = busboy({ headers: req.headers });
+
+//     bb.on('file', (name, stream, info) => {
+//         console.log(info);
+//         const path = `/Users/jianshangquan/App Developemnt/Project/Dhamma/dhamma_app_backend/data/${shortid()}.mov`;
+//         const writer = fs.createWriteStream(path);
+//         stream.pipe(writer)
+//     })
+
+
+//     bb.on('close', async () => {
+
+//         return res.json({
+//             status: 'Succeed',
+//             message: 'Upload media succeed',
+//             payload: {}
+//         })
+//     })
+
+//     req.pipe(bb)
+
+//     // res.send({succeed: 'true'})
+// })
 
 
 app.listen(5000, (err) => {
