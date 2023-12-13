@@ -7,6 +7,7 @@ export const MantraSchema = new mongoose.Schema({
     defination: String,
     coverUrl: String,
     createdDate: Date,
+    bishop: String,
     serverTime: { type: Date, default: () => new Date() }
 });
 

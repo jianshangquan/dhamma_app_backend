@@ -19,7 +19,7 @@ export default function MantraCard({ onClick, mantra, onDelete }) {
 
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
-            <div className="w-[35%] aspect-square bg-gray-200 rounded-md relative">
+            <div className="min-w-[35%] aspect-square bg-gray-200 rounded-md relative">
                 <img className='w-full h-full' src={`${FILE_SERVER_URL}/${mantra.coverUrl}`} fill={true} style={{ objectFit: 'cover' }} alt='image'/>
             </div>
             <div className="flex flex-col gap-2">
@@ -32,7 +32,7 @@ export default function MantraCard({ onClick, mantra, onDelete }) {
                 </div>
 
                 <div className="flex flex-col text-[0.75rem] opacity-60">
-                    <div>{'ဆရာတော် : '}</div>
+                    <div>{'ဆရာတော် : '}{mantra.bishop}</div>
                     <div>{'Created date : '}{moment(mantra.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
                 </div>
             </div>

@@ -36,6 +36,7 @@ export default function Mantras() {
         defination: 'fnkjsdahfkdsjafklds',
         coverUrl: '',
         thumbnail: '',
+        bishop: '',
         createdDate: new Date()
     })
 
