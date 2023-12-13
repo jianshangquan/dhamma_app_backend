@@ -19,7 +19,7 @@ export default function MantraCard({ onClick, mantra, onDelete }) {
 
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
-            <div className="min-w-[35%] aspect-square bg-gray-200 rounded-md relative">
+            <div className="min-w-[35%] max-w-[35%] w-[35%] aspect-square bg-gray-200 rounded-md relative">
                 <img className='w-full h-full' src={`${FILE_SERVER_URL}/${mantra.coverUrl}`} fill={true} style={{ objectFit: 'cover' }} alt='image'/>
             </div>
             <div className="flex flex-col gap-2">
@@ -52,7 +52,7 @@ MantraCard.Detail = function MantraDetail ({ mantra }) {
     return (
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2 px-2">
             <div className="flex flex-col gap-1 text-[0.9rem] opacity-60">
-                <div className="w-[30%] aspect-square bg-gray-200 rounded-md relative">
+                <div className="max-w-[30%] min-w-[30%] aspect-square bg-gray-200 rounded-md relative">
                     <img className='w-full h-full' src={`${FILE_SERVER_URL}/${mantra.coverUrl}`} fill style={{ objectFit: 'cover' }} alt=''/>
                 </div>
                 <span>{'ဆရာတော်: '}{mantra.bishop}</span>
