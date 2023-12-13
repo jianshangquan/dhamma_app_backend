@@ -22,12 +22,12 @@ export default function MantraCard({ onClick, mantra, onDelete }) {
             <div className="min-w-[35%] max-w-[35%] w-[35%] aspect-square bg-gray-200 rounded-md relative">
                 <img className='w-full h-full' src={`${FILE_SERVER_URL}/${mantra.coverUrl}`} fill={true} style={{ objectFit: 'cover' }} alt='image'/>
             </div>
-            <div className="flex flex-col gap-2">
-                <div className="flex flex-col">
-                    <div className="">{mantra.title}</div>
+            <div className="flex flex-col gap-2 w-full">
+                <div className="flex flex-col w-full">
+                    <div className="w-full line-clamp-1 overflow-hidden">{mantra.title}</div>
                     <div className="text-[0.8rem]">{mantra.subtitle}</div>
                 </div>
-                <div className=" font-extralight text-[0.8rem] text-ellipsis overflow-hidden w-full">
+                <div className="font-extralight text-[0.8rem] text-ellipsis overflow-hidden w-full line-clamp-4">
                     {mantra.mantra}
                 </div>
 
@@ -36,7 +36,7 @@ export default function MantraCard({ onClick, mantra, onDelete }) {
                     <div>{'Created date : '}{moment(mantra.createdDate).format('YYYY-DD-MM hh:mm A')}</div>
                 </div>
             </div>
-            <div className='flex flex-col justify-between h-full items-center'>
+            <div className='flex flex-col justify-between h-full items-center w-min'>
                 <ArrowRight theme="outline" size="21" strokeWidth={3} className='group-hover:translate-x-[0%] group-hover:opacity-100 opacity-0 transition-all translate-x-[-50%]' />
                 <div className='p-3 border rounded-full' onClick={onDel}><DeleteFour theme="outline" size="21" fill="#333" strokeWidth={3}/></div>
             </div>

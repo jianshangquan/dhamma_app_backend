@@ -21,7 +21,11 @@ app.use('/**', (req, res, next) => {
 
 app.get('/file/**', (req, res, next) => {
     const file = decodeURI(req.url).replace('/file/', '');
-    return res.sendFile(path.join(__dirname, './../data/public', file));
+    return res.sendFile(path.join(__dirname, './../data/public', file), function(err){
+        if(err){
+            res.status(err.status).end();
+        }
+    });
     res.send({});
 })
 
