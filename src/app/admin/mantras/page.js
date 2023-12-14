@@ -30,10 +30,10 @@ export default function Mantras() {
     const [selectedMantra, setSelectedMantra] = useState(null);
     const [mantra, setMantra] = useState({
         id: null,
-        title: 'fdsafdas',
-        description: 'fdsfdasfsafdsfa',
-        mantra: 'cxvdscvcsvsddsfsd',
-        defination: 'fnkjsdahfkdsjafklds',
+        title: '',
+        description: '',
+        mantra: '',
+        defination: '',
         coverUrl: '',
         thumbnail: '',
         bishop: '',

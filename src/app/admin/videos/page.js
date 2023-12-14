@@ -27,10 +27,10 @@ export default function Videos() {
     const [selectedVideo, setSelectedVideo] = useState(null);
     const [video, setVideo] = useState({
         id: null,
-        title: 'fdsafdas',
-        description: 'fdsfdasfsafdsfa',
-        mantra: 'cxvdscvcsvsddsfsd',
-        defination: 'fnkjsdahfkdsjafklds',
+        title: '',
+        description: '',
+        mantra: '',
+        defination: '',
         url: '',
         coverUrl: '',
         thumbnail: '',

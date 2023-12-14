@@ -28,10 +28,10 @@ export default function Quotes() {
     const [selectedAudio, setSelectedAudio] = useState(null);
     const [audio, setAudio] = useState({
         id: null,
-        title: 'fdsafdas',
-        description: 'fdsfdasfsafdsfa',
-        mantra: 'cxvdscvcsvsddsfsd',
-        defination: 'fnkjsdahfkdsjafklds',
+        title: '',
+        description: '',
+        mantra: '',
+        defination: '',
         url: '',
         coverUrl: '',
         thumbnail: '',
