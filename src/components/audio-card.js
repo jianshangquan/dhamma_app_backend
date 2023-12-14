@@ -30,7 +30,7 @@ export default function AudioCard({ audio, onClick, onDelete }) {
 
     return (
         <div onClick={onClick} className="bg-gray-100 w-full p-4 flex gap-3 rounded-md items-start group cursor-pointer">
-            <div className="min-w-[35%] max-w-[35%] w-[35%] aspect-square bg-gray-200 rounded-md relative overflow-hidden group-hover:shadow-xl transition-all">
+            <div className="min-w-[30%] max-w-[30%] w-[30%] aspect-square bg-gray-200 rounded-md relative overflow-hidden group-hover:shadow-xl transition-all">
                 <img className='w-full h-full' src={`${FILE_SERVER_URL}/${audio?.coverUrl}`} fill={true} style={{objectFit: 'cover'}} alt='image' />
             </div>
             <div className="flex flex-col gap-2">

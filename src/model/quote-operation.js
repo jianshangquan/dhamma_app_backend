@@ -63,7 +63,7 @@ Quote.findById = async function (id) {
 Quote.latest = async function () {
     await connectDB();
     const today = new Date();
-    const quote = await QuoteModel.findOne({ createdDate: { $lte: today } }).limit(1);
+    const quote = await QuoteModel.findOne({ createdDate: { $lte: today } }, null, { sort: { createdDate: -1 } }).limit(1);
     return quote;
 }
 
