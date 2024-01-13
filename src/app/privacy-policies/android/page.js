@@ -10,8 +10,8 @@ export default function Android() {
                 <Image src={'/dhamma-icon.png'} fill />
             </div>
             <div className='opacity-60'>
-                <h1 className="font-bold text-[1.5rem]">Privacy Policy for Dhamma app</h1>
-                <div className="pb-5 font-light text-[0.8rem]">Effective Date: 2023-12-01</div>
+                <h1 className="font-bold text-[1.5rem]">{'Privacy Policy for Dhamma app'}</h1>
+                <div className="pb-5 font-light text-[0.8rem]">{'Effective Date: 2023-12-01'}</div>
 
                 <h3 className="font-bold text-[1.3rem]">{'1. Introduction'}</h3>
                 <div>{'Welcome to Dhamma app ("we," "our," or "us"). This Privacy Policy is designed to inform you about the types of information we collect, how we use it, and how we protect your privacy when you use our mobile application, available on the Google Play Store.'}</div>
@@ -41,7 +41,7 @@ export default function Android() {
                 <h3 className="font-bold text-[1.2rem]">{'4. Third-Party Services'}</h3>
                 <div>{'Our app may utilize third-party services, and their use of your information is governed by their respective privacy policies. These services may include [list relevant third-party services, e.g., analytics, advertising networks].'}</div>
 
-                <h3 className="font-bold text-[1.2rem]">5. Security Measures</h3>
+                <h3 className="font-bold text-[1.2rem]">{'5. Security Measures'}</h3>
                 <div>{'We take reasonable measures to protect your information from unauthorized access or disclosure. However, please be aware that no data transmission over the internet is entirely secure.'}</div>
 
                 {/* <h3 className="font-bold text-[1.2rem]">6. Opt-Out Choices</h3>
@@ -54,11 +54,11 @@ export default function Android() {
                 {/* <h3 className="font-bold text-[1.2rem]">7. Children's Privacy</h3>
                 <div>Our app is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13 years old.</div> */}
 
-                <h3 className="font-bold text-[1.2rem]">6. Changes to This Privacy Policy</h3>
-                <div>We may update this Privacy Policy from time to time. Any changes will be effective immediately upon posting.</div>
+                <h3 className="font-bold text-[1.2rem]">{'6. Changes to This Privacy Policy'}</h3>
+                <div>{'We may update this Privacy Policy from time to time. Any changes will be effective immediately upon posting.'}</div>
 
-                <h3 className="font-bold text-[1.2rem]">7. Contact Information</h3>
-                <div>If you have any questions or concerns about this Privacy Policy, please contact us at [your contact information].</div>
+                <h3 className="font-bold text-[1.2rem]">{'7. Contact Information'}</h3>
+                <div>{'If you have any questions or concerns about this Privacy Policy, please contact us at +95-9795788102.'}</div>
             </div>
 
         </div>
