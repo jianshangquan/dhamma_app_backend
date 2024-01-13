@@ -26,3 +26,16 @@ body {
     )
     rgb(var(--background-start-rgb)); */
 }
+
+
+
+h3{
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+
+h4{
+  padding-top: 0.8rem;
+  padding-bottom: 0.1rem;
+}
